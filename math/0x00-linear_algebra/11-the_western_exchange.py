@@ -18,4 +18,3 @@ def np_transpose(matrix):
      A new numpy.ndarray.
     """
     return matrix.T
-

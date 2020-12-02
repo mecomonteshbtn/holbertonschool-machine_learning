@@ -25,4 +25,3 @@ def np_elementwise(mat1, mat2):
     prod = mat1 * mat2
     quot = mat1 / mat2
     return add, diff, prod, quot
-
