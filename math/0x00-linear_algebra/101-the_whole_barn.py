@@ -14,5 +14,9 @@ def add_matrices(mat1, mat2):
     Return:
      The sum of the 2 matrices as a list.
     """
+
+    if np.shape(mat1) != np.shape(mat1):
+    	return None
+
     result = np.add(mat1, mat2)
     return result
