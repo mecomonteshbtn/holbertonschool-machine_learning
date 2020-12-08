@@ -76,7 +76,7 @@ Configure X11 Forwarding
 
 ---
 
-### [0. Line Graph](./ 0-line.py)
+### [0. Line Graph](./0-line.py)
 
 Complete the following source code to plot y as a line graph:
 *    y should be plotted as a solid red line
@@ -278,7 +278,7 @@ z = np.random.rand(2000) + 40 - np.sqrt(np.square(x) + np.square(y))
 
 ### [8. PCA](./101-pca.py)
 
-Principle Component Analysis (PCA) is a vital procedure used in data science for reducing the dimensionality of data (in turn, decreasing computation cost). It is also largely used for visualizing high dimensional data in 2 or 3 dimensions. For this task, you will be visualizing the Iris flower data set . You will need to download the file pca.npz to test your code. You do not need to push this dataset to github. Complete the following source code to visualize the data in 3D:
+Principle Component Analysis (PCA) is a vital procedure used in data science for reducing the dimensionality of data (in turn, decreasing computation cost). It is also largely used for visualizing high dimensional data in 2 or 3 dimensions. For this task, you will be visualizing the [Iris flower data set.](https://en.wikipedia.org/wiki/Iris_flower_data_set) You will need to download the file pca.npz to test your code. You do not need to push this dataset to github. Complete the following source code to visualize the data in 3D:
 ```
 #!/usr/bin/env python3
 from mpl_toolkits.mplot3d import Axes3D
