@@ -64,13 +64,13 @@ plt.legend()
 
 # Histogram
 fig.add_subplot(313)
-_bins = list(range(0, 101, 10))
-plt.hist(student_grades, bins=_bins, edgecolor='black')
+bins = list(range(0, 101, 10))
+plt.hist(student_grades, bins=bins, edgecolor='black')
 plt.ylabel('Number of Students', fontsize='x-small')
 plt.xlabel('Grades', fontsize='x-small')
 plt.title('Project A', fontsize='x-small')
 plt.xlim(0, 100)
-plt.xticks(_bins)
+plt.xticks(bins)
 plt.ylim(0, 30)
 
 
