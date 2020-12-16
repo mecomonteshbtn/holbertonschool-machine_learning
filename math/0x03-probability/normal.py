@@ -88,10 +88,10 @@ class Normal:
          The CDF value for x
         """
 
-        z = (x - self.mean) / (self.stddev * pow(2, (1 / 2)))
-        er = (z - (pow(z, 3) / 3) + (pow(z, 5) / 10)
-                - (pow(z, 7) / 42) + (pow(z, 9) / 216))
+        z = (x - self.mean) / (self.stddev * pow(2, 1 / 2))
+        er = z - pow(z, 3) / 3 + pow(z, 5) / 10 - pow(z, 7) / 42 + pow(z,
+                                                                       9) / 216
 
-        cdf = (0.5 * (1 + (2 / (Normal.pi ** (1/2))) * (er)))
+        cdf = 0.5 * (1 + 2 / (pow(Normal.pi, 1 / 2) * er))
 
         return cdf
