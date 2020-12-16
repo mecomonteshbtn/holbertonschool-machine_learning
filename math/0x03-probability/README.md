@@ -4,8 +4,8 @@
 
 ## Read or watch:
 
-[Probability](https://en.wikipedia.org/wiki/Probability)
-[Basic Concepts](http://onlinestatbook.com/2/probability/probability.html)
+* [Probability](https://en.wikipedia.org/wiki/Probability)
+* [Basic Concepts](http://onlinestatbook.com/2/probability/probability.html)
 
 ---
 ## As references:
