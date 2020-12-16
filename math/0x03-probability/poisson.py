@@ -52,7 +52,27 @@ class Poisson:
         for x in range(1, k + 1):
             fact_k = x * fact_k
 
-        pmf = (pow(self.e, self.lambtha * -1)
-               * (pow(self.lambtha, k))) / fact_k
-
+        pmf = pow(self.e, -self.lambtha) * pow(self.lambtha, k) / fact_k
         return pmf
+
+    def cdf(self, k):
+        """
+        Calculates the value of the CDF for a given number of “successes”
+
+        Arguments:
+         - k (int/float): number of "successes"
+        """
+        if k <= 0:
+            return 0
+
+        k = int(k)
+
+        result = 0
+        for n in range(k + 1):
+            fact_k = 1
+            for x in range(1, n + 1):
+                fact_k = x * fact_k
+            result += pow(self.lambtha, n) / fact_k
+
+        cdf = result * pow(Poisson.e, -self.lambtha)
+        return cdf
