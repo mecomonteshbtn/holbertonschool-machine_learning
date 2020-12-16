@@ -4,16 +4,16 @@
 
 ## Read or watch:
 
-    [Probability](https://en.wikipedia.org/wiki/Probability)
-    [Basic Concepts](http://onlinestatbook.com/2/probability/probability.html)
+[Probability](https://en.wikipedia.org/wiki/Probability)
+[Basic Concepts](http://onlinestatbook.com/2/probability/probability.html)
 
 ---
 ## As references:
-*    numpy.random.poisson
-*    numpy.random.exponential
-*    numpy.random.normal
-*    numpy.random.binomial
-*    erf
+*    [numpy.random.poisson](https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.random.poisson.html)
+*    [numpy.random.exponential](https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.random.exponential.html)
+*    [numpy.random.normal](https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.random.normal.html)
+*    [numpy.random.binomial](https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.random.binomial.html)
+*    [erf](https://mathworld.wolfram.com/Erf.html)
 
 ---
 ## Learning Objectives
@@ -57,7 +57,7 @@ For the following tasks, you will have to use various irrational numbers and fun
 ---
 ### [0. Initialize Poisson](./poisson.py)
 Create a class Poisson that represents a poisson distribution:
-    Class contructor def __init__(self, data=None, lambtha=1.):
+*    Class contructor def __init__(self, data=None, lambtha=1.):
         data is a list of the data to be used to estimate the distribution
         lambtha is the expected number of occurences in a given time frame
         Sets the instance attribute lambtha
@@ -119,7 +119,7 @@ alexa@ubuntu-xenial:0x03-probability$
 
 ### [2. Poisson CDF](./poisson.py)
 Update the class Poisson:
-    Instance method def cdf(self, k):
+*    Instance method def cdf(self, k):
         Calculates the value of the CDF for a given number of “successes”
         k is the number of “successes”
             If k is not an integer, convert it to an integer
@@ -451,5 +451,8 @@ F(30): 0.5189392017296368
 F(30): 0.5535236207894576
 alexa@ubuntu-xenial:0x03-probability$
 ```
+---
+## Authors
 
+* **Robinson Montes** - [mecomonteshbtn](https://github.com/mecomonteshbtn)
 
