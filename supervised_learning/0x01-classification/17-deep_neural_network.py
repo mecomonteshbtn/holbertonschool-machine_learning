@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Class DeepNeuralNetwork
+Created on Sun Jan 4 8:43:40 2021
+
+@author: Robinson Montes
 """
-
-
 import numpy as np
 
 
@@ -33,7 +34,6 @@ class DeepNeuralNetwork:
         if type(layers) != list or len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
 
-        # Private intance attributes
         self.__nx = nx
         self.__layers = layers
         self.__L = len(layers)
