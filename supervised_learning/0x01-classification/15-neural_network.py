@@ -6,7 +6,6 @@ Created on Sun Jan 3 18:48:40 2021
 @author: Robinson Montes
 """
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class NeuralNetwork:
@@ -200,8 +199,7 @@ class NeuralNetwork:
         self.__W1 = self.__W1 - alpha * dw1
         self.__b1 = self.__b1 - alpha * db1
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
-              graph=True, step=100):
+    def train(self, X, Y, iterations=5000, alpha=0.05):
         """
         Trains the neural network
         Arguments:
