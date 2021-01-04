@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Class NeuralNetwork
+Created on Sun Jan 3 18:48:40 2021
+
+@author: Robinson Montes
 """
-
-
 import numpy as np
 
 
@@ -33,7 +34,6 @@ class NeuralNetwork:
                be initialized to 0.
          - A2: The activated output for the output neuron (prediction). Upon
                instantiation, it should be initialized to 0.
-
         """
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
@@ -44,7 +44,6 @@ class NeuralNetwork:
         if nodes < 1:
             raise ValueError("nodes must be a positive integer")
 
-        # public intance attributes
         self.__W1 = np.random.normal(size=(nodes, nx))
         self.__b1 = np.zeros((nodes, 1))
         self.__A1 = 0
@@ -112,12 +111,27 @@ class NeuralNetwork:
         Returns:
          The private attributes __A1 and __A2, respectively
         """
-        Z1 = np.matmul(self.__W1, X) + self.__b1
-        self.__A1 = 1 / (1 + np.exp(-Z1))
-        Z2 = np.matmul(self.__W2, self.__A1) + self.__b2
-        self.__A2 = 1 / (1 + np.exp(-Z2))
+        z1 = np.matmul(self.__W1, X) + self.__b1
+        self.__A1 = self.sigmoid(z1)
+        z2 = np.matmul(self.__W2, self.__A1) + self.__b2
+        self.__A2 = self.sigmoid(z2)
 
         return self.__A1, self.__A2
+
+    def sigmoid(self, z):
+        """
+        Applies the sigmoid activation function
+        Arguments:
+        - z (numpy.ndattay): with shape (nx, m) that contains the input data
+         * nx is the number of input features to the neuron.
+         * m is the number of examples
+        Updates the private attribute __A
+        The neuron should use a sigmoid activation function
+        Return:
+        The private attribute A
+        """
+        y_hat = 1 / (1 + np.exp(-z))
+        return y_hat
 
     def cost(self, Y, A):
         """
@@ -134,6 +148,6 @@ class NeuralNetwork:
         y2 = 1.0000001 - A
         m = Y.shape[1]
 
-        cost = -1 * (1 / m) * np.sum(Y * np.log(A) + y1 * np.log(y2))
+        cost = -np.sum(Y * np.log(A) + y1 * np.log(y2)) / m
 
         return cost

@@ -951,27 +951,25 @@ Dev cost: 0.020330639788072768
 Dev accuracy: 99.57446808510639%
 ```
 
-16. DeepNeuralNetwork mandatory
-
+### [16. DeepNeuralNetwork](./16-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification:
-
-    class constructor: def __init__(self, nx, layers):
-        nx is the number of input features
-            If nx is not an integer, raise a TypeError with the exception: nx must be an integer
-            If nx is less than 1, raise a ValueError with the exception: nx must be a positive integer
-        layers is a list representing the number of nodes in each layer of the network
-            If layers is not a list, raise a TypeError with the exception: layers must be a list of positive integers
-            The first value in layers represents the number of nodes in the first layer, …
-            If the elements in layers are not all positive integers, raise a TypeError with the exception layers must be a list of positive integers
-        All exceptions should be raised in the order listed above
-        Sets the public instance attributes:
-            L: The number of layers in the neural network.
-            cache: A dictionary to hold all intermediary values of the network. Upon instantiation, it should be set to an empty dictionary.
-            weights: A dictionary to hold all weights and biased of the network. Upon instantiation:
-                The weights of the network should be initialized using the He et al. method and saved in the weights dictionary using the key W{l} where {l} is the hidden layer the weight belongs to
-                The biases of the network should be initialized to 0’s and saved in the weights dictionary using the key b{l} where {l} is the hidden layer the bias belongs to
-        You are allowed to use one loop
-
+*    class constructor: def __init__(self, nx, layers):
+*        nx is the number of input features
+*            If nx is not an integer, raise a TypeError with the exception: nx must be an integer
+*            If nx is less than 1, raise a ValueError with the exception: nx must be a positive integer
+*        layers is a list representing the number of nodes in each layer of the network
+*            If layers is not a list, raise a TypeError with the exception: layers must be a list of positive integers
+*            The first value in layers represents the number of nodes in the first layer, …
+*            If the elements in layers are not all positive integers, raise a TypeError with the exception layers must be a list of positive integers
+*        All exceptions should be raised in the order listed above
+*        Sets the public instance attributes:
+*            L: The number of layers in the neural network.
+*            cache: A dictionary to hold all intermediary values of the network. Upon instantiation, it should be set to an empty dictionary.
+*            weights: A dictionary to hold all weights and biased of the network. Upon instantiation:
+*                The weights of the network should be initialized using the He et al. method and saved in the weights dictionary using the key W{l} where {l} is the hidden layer the weight belongs to
+*                The biases of the network should be initialized to 0’s and saved in the weights dictionary using the key b{l} where {l} is the hidden layer the bias belongs to
+*        You are allowed to use one loop
+```
 alexa@ubuntu-xenial:$ cat 16-main.py
 #!/usr/bin/env python3
 
@@ -1013,36 +1011,28 @@ alexa@ubuntu-xenial:$ ./16-main.py
 3
 10
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 16-deep_neural_network.py
-
-
-17. Privatize DeepNeuralNetwork mandatory
-
+### [17. Privatize DeepNeuralNetwork](./17-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification (based on 16-deep_neural_network.py):
-
-    class constructor: def __init__(self, nx, layers):
-        nx is the number of input features
-            If nx is not an integer, raise a TypeError with the exception: nx must be an integer
-            If nx is less than 1, raise a ValueError with the exception: nx must be a positive integer
-        layers is a list representing the number of nodes in each layer of the network
-            If layers is not a list, raise a TypeError with the exception: layers must be a list of positive integers
-            The first value in layers represents the number of nodes in the first layer, …
-            If the elements in layers are not all positive integers, raise a TypeError with the exception layers must be a list of positive integers
-        All exceptions should be raised in the order listed above
-        Sets the private instance attributes:
-            __L: The number of layers in the neural network.
-            __cache: A dictionary to hold all intermediary values of the network. Upon instantiation, it should be set to an empty dictionary.
-            __weights: A dictionary to hold all weights and biased of the network. Upon instantiation:
-                The weights of the network should be initialized using the He et al. method and saved in the __weights dictionary using the key W{l} where {l} is the hidden layer the weight belongs to
-                The biases of the network should be initialized to 0‘s and saved in the __weights dictionary using the key b{l} where {l} is the hidden layer the bias belongs to
-            Each private attribute should have a corresponding getter function (no setter function).
-        You are allowed to use one loop
-
+*    class constructor: def __init__(self, nx, layers):
+*        nx is the number of input features
+*            If nx is not an integer, raise a TypeError with the exception: nx must be an integer
+*            If nx is less than 1, raise a ValueError with the exception: nx must be a positive integer
+*        layers is a list representing the number of nodes in each layer of the network
+*            If layers is not a list, raise a TypeError with the exception: layers must be a list of positive integers
+*            The first value in layers represents the number of nodes in the first layer, …
+*            If the elements in layers are not all positive integers, raise a TypeError with the exception layers must be a list of positive integers
+*        All exceptions should be raised in the order listed above
+*        Sets the private instance attributes:
+*            __L: The number of layers in the neural network.
+*            __cache: A dictionary to hold all intermediary values of the network. Upon instantiation, it should be set to an empty dictionary.
+*            __weights: A dictionary to hold all weights and biased of the network. Upon instantiation:
+*                The weights of the network should be initialized using the He et al. method and saved in the __weights dictionary using the key W{l} where {l} is the hidden layer the weight belongs to
+*                The biases of the network should be initialized to 0‘s and saved in the __weights dictionary using the key b{l} where {l} is the hidden layer the bias belongs to
+*           Each private attribute should have a corresponding getter function (no setter function).
+*       You are allowed to use one loop
+```
 alexa@ubuntu-xenial:$ cat 17-main.py
 #!/usr/bin/env python3
 
@@ -1087,30 +1077,22 @@ Traceback (most recent call last):
     deep.L = 10
 AttributeError: can't set attribute
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 17-deep_neural_network.py
-
-
-18. DeepNeuralNetwork Forward Propagation mandatory
-
+### [18. DeepNeuralNetwork Forward Propagation](./18-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification (based on 17-deep_neural_network.py):
-
-    Add the public method def forward_prop(self, X):
-        Calculates the forward propagation of the neural network
-        X is a numpy.ndarray with shape (nx, m) that contains the input data
-            nx is the number of input features to the neuron
-            m is the number of examples
-        Updates the private attribute __cache:
-            The activated outputs of each layer should be saved in the __cache dictionary using the key A{l} where {l} is the hidden layer the activated output belongs to
-            X should be saved to the cache dictionary using the key A0
-        All neurons should use a sigmoid activation function
-        You are allowed to use one loop
-        Returns the output of the neural network and the cache, respectively
-
+*    Add the public method def forward_prop(self, X):
+*        Calculates the forward propagation of the neural network
+*        X is a numpy.ndarray with shape (nx, m) that contains the input data
+*            nx is the number of input features to the neuron
+*            m is the number of examples
+*        Updates the private attribute __cache:
+*            The activated outputs of each layer should be saved in the __cache dictionary using the key A{l} where {l} is the hidden layer the activated output belongs to
+*            X should be saved to the cache dictionary using the key A0
+*        All neurons should use a sigmoid activation function
+*        You are allowed to use one loop
+*        Returns the output of the neural network and the cache, respectively
+```
 alexa@ubuntu-xenial:$ cat 18-main.py
 #!/usr/bin/env python3
 
@@ -1159,25 +1141,17 @@ alexa@ubuntu-xenial:$ ./18-main.py
 True
 True
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 18-deep_neural_network.py
-
-
-19. DeepNeuralNetwork Cost mandatory
-
+### [19. DeepNeuralNetwork Cost](./19-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification (based on 18-deep_neural_network.py):
-
-    Add the public method def cost(self, Y, A):
+*    Add the public method def cost(self, Y, A):
         Calculates the cost of the model using logistic regression
-        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
-        A is a numpy.ndarray with shape (1, m) containing the activated output of the neuron for each example
-        To avoid division by zero errors, please use 1.0000001 - A instead of 1 - A
-        Returns the cost
-
+*        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
+*        A is a numpy.ndarray with shape (1, m) containing the activated output of the neuron for each example
+*        To avoid division by zero errors, please use 1.0000001 - A instead of 1 - A
+*        Returns the cost
+```
 alexa@ubuntu-xenial:$ cat 19-main.py
 #!/usr/bin/env python3
 
@@ -1197,28 +1171,20 @@ print(cost)
 alexa@ubuntu-xenial:$ ./19-main.py
 0.6958649419170609
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 19-deep_neural_network.py
-
-
-20. Evaluate DeepNeuralNetwork mandatory
-
+### [20. Evaluate DeepNeuralNetwork](./20-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification (based on 19-deep_neural_network.py):
-
-    Add the public method def evaluate(self, X, Y):
-        Evaluates the neural network’s predictions
-        X is a numpy.ndarray with shape (nx, m) that contains the input data
-            nx is the number of input features to the neuron
-            m is the number of examples
-        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
-        Returns the neuron’s prediction and the cost of the network, respectively
-            The prediction should be a numpy.ndarray with shape (1, m) containing the predicted labels for each example
-            The label values should be 1 if the output of the network is >= 0.5 and 0 otherwise
-
+*    Add the public method def evaluate(self, X, Y):
+*        Evaluates the neural network’s predictions
+*        X is a numpy.ndarray with shape (nx, m) that contains the input data
+*            nx is the number of input features to the neuron
+*            m is the number of examples
+*        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
+*        Returns the neuron’s prediction and the cost of the network, respectively
+*            The prediction should be a numpy.ndarray with shape (1, m) containing the predicted labels for each example
+*            The label values should be 1 if the output of the network is >= 0.5 and 0 otherwise
+```
 alexa@ubuntu-xenial:$ cat 20-main.py
 #!/usr/bin/env python3
 
@@ -1239,26 +1205,18 @@ alexa@ubuntu-xenial:$ ./20-main.py
 [[1 1 1 ... 1 1 1]]
 0.6958649419170609
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 20-deep_neural_network.py
-
-
-21. DeepNeuralNetwork Gradient Descent mandatory
-
+### [21. DeepNeuralNetwork Gradient Descent](./21-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification (based on 20-deep_neural_network.py):
-
-    Add the public method def gradient_descent(self, Y, cache, alpha=0.05):
-        Calculates one pass of gradient descent on the neural network
-        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
-        cache is a dictionary containing all the intermediary values of the network
-        alpha is the learning rate
-        Updates the private attribute __weights
-        You are allowed to use one loop
-
+*    Add the public method def gradient_descent(self, Y, cache, alpha=0.05):
+*        Calculates one pass of gradient descent on the neural network
+*        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
+*        cache is a dictionary containing all the intermediary values of the network
+*        alpha is the learning rate
+*        Updates the private attribute __weights
+*        You are allowed to use one loop
+```
 alexa@ubuntu-xenial:$ cat 21-main.py
 #!/usr/bin/env python3
 
@@ -1295,35 +1253,27 @@ alexa@ubuntu-xenial:$ ./21-main.py
        [-0.01667953, -0.04216413,  0.06239623, ..., -0.02024521,
         -0.05159656, -0.02373981]])}
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 21-deep_neural_network.py
-
-
-22. Train DeepNeuralNetwork mandatory
-
+### [22. Train DeepNeuralNetwork](./22-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification (based on 21-deep_neural_network.py):
-
-    Add the public method def train(self, X, Y, iterations=5000, alpha=0.05):
-        Trains the deep neural network
-        X is a numpy.ndarray with shape (nx, m) that contains the input data
-            nx is the number of input features to the neuron
-            m is the number of examples
-        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
-        iterations is the number of iterations to train over
-            if iterations is not an integer, raise a TypeError with the exception iterations must be an integer
-            if iterations is not positive, raise a ValueError with the exception iterations must be a positive integer
-        alpha is the learning rate
-            if alpha is not a float, raise a TypeError with the exception alpha must be a float
-            if alpha is not positive, raise a ValueError with the exception alpha must be positive
-        All exceptions should be raised in the order listed above
-        Updates the private attributes __weights and __cache
-        You are allowed to use one loop
-        Returns the evaluation of the training data after iterations of training have occurred
-
+*    Add the public method def train(self, X, Y, iterations=5000, alpha=0.05):
+*        Trains the deep neural network
+*        X is a numpy.ndarray with shape (nx, m) that contains the input data
+*            nx is the number of input features to the neuron
+*            m is the number of examples
+*        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
+*        iterations is the number of iterations to train over
+*            if iterations is not an integer, raise a TypeError with the exception iterations must be an integer
+*            if iterations is not positive, raise a ValueError with the exception iterations must be a positive integer
+*        alpha is the learning rate
+*            if alpha is not a float, raise a TypeError with the exception alpha must be a float
+*            if alpha is not positive, raise a ValueError with the exception alpha must be positive
+*        All exceptions should be raised in the order listed above
+*        Updates the private attributes __weights and __cache
+*        You are allowed to use one loop
+*        Returns the evaluation of the training data after iterations of training have occurred
+```
 alexa@ubuntu-xenial:$ cat 22-main.py
 #!/usr/bin/env python3
 
@@ -1364,46 +1314,38 @@ Dev cost: 0.6428913158565179
 Dev accuracy: 57.730496453900706%
 
 Hmm… doesn’t seem like this worked very well. Could it be because of our architecture or that it wasn’t trained properly? We need to see more information…
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 22-deep_neural_network.py
-
-
-23. Upgrade Train DeepNeuralNetwork mandatory
-
+### [23. Upgrade Train DeepNeuralNetwork](./23-deep_neural_network.py)
 Write a class DeepNeuralNetwork that defines a deep neural network performing binary classification (based on 22-deep_neural_network.py):
-
-    Update the public method train to def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
-        Trains the deep neural network by updating the private attributes __weights and __cache
-        X is a numpy.ndarray with shape (nx, m) that contains the input data
-            nx is the number of input features to the neuron
-            m is the number of examples
-        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
-        iterations is the number of iterations to train over
-            if iterations is not an integer, raise a TypeError with the exception iterations must be an integer
-            if iterations is not positive, raise a ValueError with the exception iterations must be a positive integer
-        alpha is the learning rate
-            if alpha is not a float, raise a TypeError with the exception alpha must be a float
-            if alpha is not positive, raise a ValueError with the exception alpha must be positive
-        verbose is a boolean that defines whether or not to print information about the training. If True, print Cost after {iteration} iterations: {cost} every step iterations:
-            Include data from the 0th and last iteration
-        graph is a boolean that defines whether or not to graph information about the training once the training has completed. If True:
-            Plot the training data every step iterations as a blue line
-            Label the x-axis as iteration
-            Label the y-axis as cost
-            Title the plot Training Cost
-            Include data from the 0th and last iteration
-        Only if either verbose or graph are True:
-            if step is not an integer, raise a TypeError with the exception step must be an integer
-            if step is not positive and less than or equal to iterations, raise a ValueError with the exception step must be positive and <= iterations
-        All exceptions should be raised in the order listed above
-        The 0th iteration should represent the state of the neuron before any training has occurred
-        You are allowed to use one loop
-        Returns the evaluation of the training data after iterations of training have occurred
-
+*    Update the public method train to def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
+*        Trains the deep neural network by updating the private attributes __weights and __cache
+*        X is a numpy.ndarray with shape (nx, m) that contains the input data
+*            nx is the number of input features to the neuron
+*            m is the number of examples
+*        Y is a numpy.ndarray with shape (1, m) that contains the correct labels for the input data
+*        iterations is the number of iterations to train over
+*            if iterations is not an integer, raise a TypeError with the exception iterations must be an integer
+*            if iterations is not positive, raise a ValueError with the exception iterations must be a positive integer
+*        alpha is the learning rate
+*            if alpha is not a float, raise a TypeError with the exception alpha must be a float
+*            if alpha is not positive, raise a ValueError with the exception alpha must be positive
+*        verbose is a boolean that defines whether or not to print information about the training. If True, print Cost after {iteration} iterations: {cost} every step iterations:
+*            Include data from the 0th and last iteration
+*        graph is a boolean that defines whether or not to graph information about the training once the training has completed. If True:
+*            Plot the training data every step iterations as a blue line
+*            Label the x-axis as iteration
+*            Label the y-axis as cost
+*            Title the plot Training Cost
+*            Include data from the 0th and last iteration
+*        Only if either verbose or graph are True:
+*            if step is not an integer, raise a TypeError with the exception step must be an integer
+*            if step is not positive and less than or equal to iterations, raise a ValueError with the exception step must be positive and <= iterations
+*        All exceptions should be raised in the order listed above
+*        The 0th iteration should represent the state of the neuron before any training has occurred
+*        You are allowed to use one loop
+*        Returns the evaluation of the training data after iterations of training have occurred
+```
 alexa@ubuntu-xenial:$ cat 23-main.py
 #!/usr/bin/env python3
 
@@ -1449,23 +1391,15 @@ Train cost: 0.011671820326008168
 Train accuracy: 99.88945913936044%
 Dev cost: 0.00924955213227925
 Dev accuracy: 99.95271867612293%
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 23-deep_neural_network.py
-
-
-24. One-Hot Encode mandatory
-
+### [24. One-Hot Encode](./24-one_hot_encode.py)
 Write a function def one_hot_encode(Y, classes): that converts a numeric label vector into a one-hot matrix:
-
-    Y is a numpy.ndarray with shape (m,) containing numeric class labels
-        m is the number of examples
-    classes is the maximum number of classes found in Y
-    Returns: a one-hot encoding of Y with shape (classes, m), or None on failure
-
+*    Y is a numpy.ndarray with shape (m,) containing numeric class labels
+*        m is the number of examples
+*    classes is the maximum number of classes found in Y
+*    Returns: a one-hot encoding of Y with shape (classes, m), or None on failure
+```
 alexa@ubuntu-xenial:$ cat 24-main.py
 #!/usr/bin/env python3
 
@@ -1492,23 +1426,15 @@ alexa@ubuntu-xenial:$ ./24-main.py
  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
  [0. 0. 0. 0. 1. 0. 0. 0. 0. 0.]]
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 24-one_hot_encode.py
-
-
-25. One-Hot Decode mandatory
-
+### [25. One-Hot Decode](./25-one_hot_encode.py)
 Write a function def one_hot_decode(one_hot): that converts a one-hot matrix into a vector of labels:
-
-    one_hot is a one-hot encoded numpy.ndarray with shape (classes, m)
-        classes is the maximum number of classes
-        m is the number of examples
-    Returns: a numpy.ndarray with shape (m, ) containing the numeric labels for each example, or None on failure
-
+*    one_hot is a one-hot encoded numpy.ndarray with shape (classes, m)
+*        classes is the maximum number of classes
+*        m is the number of examples
+*    Returns: a numpy.ndarray with shape (m, ) containing the numeric labels for each example, or None on failure
+```
 alexa@ubuntu-xenial:$ cat 25-main.py
 #!/usr/bin/env python3
 
@@ -1528,28 +1454,19 @@ alexa@ubuntu-xenial:$ ./25-main.py
 [5 0 4 1 9 2 1 3 1 4]
 [5 0 4 1 9 2 1 3 1 4]
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 25-one_hot_decode.py
-
-
-26. Persistence is Key mandatory
-
+### [26. Persistence is Key](./26-one_hot_encode.py)
 Update the class DeepNeuralNetwork (based on 23-deep_neural_network.py):
-
-    Create the instance method def save(self, filename):
-        Saves the instance object to a file in pickle format
-        filename is the file to which the object should be saved
-        If filename does not have the extension .pkl, add it
-
-    Create the static method def load(filename):
-        Loads a pickled DeepNeuralNetwork object
-        filename is the file from which the object should be loaded
-        Returns: the loaded object, or None if filename doesn’t exist
-
+*    Create the instance method def save(self, filename):
+*        Saves the instance object to a file in pickle format
+*        filename is the file to which the object should be saved
+*        If filename does not have the extension .pkl, add it
+*    Create the static method def load(filename):
+*        Loads a pickled DeepNeuralNetwork object
+*        filename is the file from which the object should be loaded
+*        Returns: the loaded object, or None if filename doesn’t exist
+```
 alexa@ubuntu-xenial:$ cat 26-main.py
 #!/usr/bin/env python3
 
@@ -1586,27 +1503,19 @@ True
 alexa@ubuntu-xenial:$ ls 26-output*
 26-output.pkl
 alexa@ubuntu-xenial:$
+```
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 26-deep_neural_network.py
-
-
-27. Update DeepNeuralNetwork mandatory
-
+### [27. Update DeepNeuralNetwork](./27-deep_neural_network.py)
 Update the class DeepNeuralNetwork to perform multiclass classification (based on 26-deep_neural_network.py):
-
-    You will need to update the instance methods forward_prop, cost, and evaluate
-    Y is now a one-hot numpy.ndarray of shape (classes, m)
+*    You will need to update the instance methods forward_prop, cost, and evaluate
+*    Y is now a one-hot numpy.ndarray of shape (classes, m)
 
 Ideally, you should not have to change the __init__, gradient_descent, or train instance methods
 
 Because the training process takes such a long time, I have pretrained a model for you to load and finish training (3-saved.pkl). This model has already been trained for 2000 iterations.
 
 The training process may take up to 5 minutes
-
+```
 alexa@ubuntu-xenial:$ cat 27-main.py
 #!/usr/bin/env python3
 
@@ -1667,33 +1576,24 @@ Train cost: 0.42837693207206473
 Train accuracy: 88.442%
 Validation cost: 0.39517557351173044
 Validation accuracy: 89.64%
-
+```
 As you can see, our training has become very slow and is beginning to plateau. Let’s alter the model a little and see if we get a better result
 
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 27-deep_neural_network.py
-
-
-28. All the Activations mandatory
-
+### [28. All the Activations](./28-deep_neural_network.py)
 Update the class DeepNeuralNetwork to allow different activation functions (based on 3-deep_neural_network.py):
-
-    Update the __init__ method to def __init__(self, nx, layers, activation='sig'):
-        activation represents the type of activation function used in the hidden layers
-            sig represents a sigmoid activation
-            tanh represents a tanh activation
-            if activation is not sig or tanh, raise a ValueError with the exception: activation must be 'sig' or 'tanh'
-        Create the private attribute __activation and set it to the value of activation
-        Create a getter for the private attribute __activation
-    Update the forward_prop and gradient_descent instance methods to use the __activation function in the hidden layers
+*    Update the __init__ method to def __init__(self, nx, layers, activation='sig'):
+*        activation represents the type of activation function used in the hidden layers
+*            sig represents a sigmoid activation
+*            tanh represents a tanh activation
+*            if activation is not sig or tanh, raise a ValueError with the exception: activation must be 'sig' or 'tanh'
+*        Create the private attribute __activation and set it to the value of activation
+*        Create a getter for the private attribute __activation
+*    Update the forward_prop and gradient_descent instance methods to use the __activation function in the hidden layers
 
 Because the training process takes such a long time, I have pre-trained a model for you to load and finish training (4-saved.pkl). This model has already been trained for 2000 iterations.
 
 The training process may take up to 5 minutes
-
+```
 alexa@ubuntu-xenial:$ cat 28-main.py
 #!/usr/bin/env python3
 
@@ -1802,32 +1702,8 @@ Validation cost: 0.17689309600397934
 Validation accuracy: 95.13000000000001%
 Test cost: 0.1809489808838737
 Test accuracy: 94.77%
-
+```
 The training of this model is also getting slow and plateauing after about 2000 iterations. However, just by changing the activation function, we have nearly halved the model’s cost and increased its accuracy by about 6%
-
-Repo:
-
-    GitHub repository: holbertonschool-machine_learning
-    Directory: supervised_learning/0x01-classification
-    File: 28-deep_neural_network.py
-
-
-29. Blogpost #advanced
-
-Write a blog post that explains the purpose of activation functions and compares and contrasts (at the minimum) the following functions:
-
-    Binary
-    Linear
-    Sigmoid
-    Tanh
-    ReLU
-    Softmax
-
-Your posts should have examples and at least one picture, at the top. Publish your blog post on Medium or LinkedIn, and share it at least on LinkedIn.
-
-When done, please add all URLs below (blog post, LinkedIn post, etc.)
-
-Please, remember that these blogs must be written in English to further your technical ability in a variety of settings.
 
 ---
 ## Authors

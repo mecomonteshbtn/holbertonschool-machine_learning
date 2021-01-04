@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Class NeuralNetwork
+Created on Sun Jan 3 18:48:40 2021
+
+@author: Robinson Montes
 """
-
-
 import numpy as np
 
 
@@ -33,7 +34,6 @@ class NeuralNetwork:
                be initialized to 0.
          - A2: The activated output for the output neuron (prediction). Upon
                instantiation, it should be initialized to 0.
-
         """
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
@@ -44,7 +44,6 @@ class NeuralNetwork:
         if nodes < 1:
             raise ValueError("nodes must be a positive integer")
 
-        # public intance attributes
         self.__W1 = np.random.normal(size=(nodes, nx))
         self.__b1 = np.zeros((nodes, 1))
         self.__A1 = 0
