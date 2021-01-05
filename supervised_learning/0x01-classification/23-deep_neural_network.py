@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Class DeepNeuralNetwork
+Created on Sun Jan 4 8:43:40 2021
+
+@author: Robinson Montes
 """
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -34,7 +35,6 @@ class DeepNeuralNetwork:
         if type(layers) != list or len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
 
-        # Private intance attributes
         self.__nx = nx
         self.__layers = layers
         self.__L = len(layers)
@@ -100,10 +100,25 @@ class DeepNeuralNetwork:
             b = self.__weights[bkey]
             Aprev = self.__cache[Aprevkey]
 
-            Z = np.matmul(W, Aprev) + b
-            self.__cache[Akey] = 1 / (1 + np.exp(-Z))
+            z = np.matmul(W, Aprev) + b
+            self.__cache[Akey] = self.sigmoid(z)
 
         return (self.__cache[Akey], self.__cache)
+
+    def sigmoid(self, z):
+        """
+        Applies the sigmoid activation function
+        Arguments:
+        - z (numpy.ndattay): with shape (nx, m) that contains the input data
+         * nx is the number of input features to the neuron.
+         * m is the number of examples
+        Updates the private attribute __A
+        The neuron should use a sigmoid activation function
+        Return:
+        The private attribute A
+        """
+        y_hat = 1 / (1 + np.exp(-z))
+        return y_hat
 
     def cost(self, Y, A):
         """
@@ -119,7 +134,7 @@ class DeepNeuralNetwork:
         y1 = 1 - Y
         y2 = 1.0000001 - A
         m = Y.shape[1]
-        cost = -1 * (1 / m) * np.sum(Y * np.log(A) + y1 * np.log(y2))
+        cost = -np.sum(Y * np.log(A) + y1 * np.log(y2)) / m
 
         return cost
 
@@ -152,7 +167,7 @@ class DeepNeuralNetwork:
         """
         m = Y.shape[1]
         Al = cache["A{}".format(self.__L)]
-        dAl = (-1 * (Y / Al)) + (1 - Y)/(1 - Al)
+        dAl = (-Y / Al) + (1 - Y)/(1 - Al)
 
         for i in reversed(range(1, self.__L + 1)):
             wkey = "W{}".format(i)
@@ -161,8 +176,8 @@ class DeepNeuralNetwork:
             Al1 = cache["A{}".format(i - 1)]
             g = Al * (1 - Al)
             dZ = np.multiply(dAl, g)
-            dW = (1 / m) * np.matmul(dZ, Al1.T)
-            db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
+            dW = np.matmul(dZ, Al1.T) / m
+            db = np.sum(dZ, axis=1, keepdims=True) / m
             W = self.__weights["W{}".format(i)]
             dAl = np.matmul(W.T, dZ)
 
@@ -210,11 +225,10 @@ class DeepNeuralNetwork:
             self.gradient_descent(Y, self.__cache, alpha)
             cost = self.cost(Y, A)
 
-            if verbose:
-                if i % step == 0 or step == iterations:
-                    cost_list.append(cost)
-                    step_list.append(i)
-                    print("Cost after {} iterations: {}".format(i, cost))
+            if verbose and i % step == 0:
+                cost_list.append(cost)
+                step_list.append(i)
+                print("Cost after {} iterations: {}".format(i, cost))
 
         if graph:
             plt.plot(step_list, cost_list)
