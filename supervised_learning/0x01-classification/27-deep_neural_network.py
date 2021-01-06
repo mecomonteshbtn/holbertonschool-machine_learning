@@ -1,86 +1,70 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Jan 4 8:43:40 2021
-
-@author: Robinson Montes
-"""
+"""Deep Neural Network"""
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
 
-class DeepNeuralNetwork:
-    """
-    Class DeepNeuralNetwork that defines a deep neural network
-    performing binary classification
-    """
+class DeepNeuralNetwork():
+    """Deep Neural Network"""
 
     def __init__(self, nx, layers):
         """
-        Constructor for the class
-        Arguments:
-         - nx (int): is the number of input features to the neuron
-         - layers (list): representing the number of nodes in each layer of
-                          the network
-        Public instance attributes:
-         - L: The number of layers in the neural network.
-         - cache: A dictionary to hold all intermediary values of the network.
-         - weights: A dictionary to hold all weights and biased of the network.
+        - Defines a deep neural network performing binary classification
+        - nx is the number of input features.
+        - layers is a list representing the number of nodes in each
+        layer of the network
         """
-        if type(nx) is not int:
+        if type(nx) != int:
             raise TypeError("nx must be an integer")
         if nx < 1:
             raise ValueError("nx must be a positive integer")
 
-        if type(layers) != list or len(layers) == 0:
+        if type(layers) != list:
             raise TypeError("layers must be a list of positive integers")
 
-        self.__nx = nx
-        self.__layers = layers
         self.__L = len(layers)
         self.__cache = {}
         self.__weights = {}
-
-        for i in range(self.L):
-            if type(layers[i]) is not int or layers[i] <= 0:
+        for i in range(0, self.L):
+            if layers[i] < 0:
                 raise TypeError("layers must be a list of positive integers")
-
-            wkey = "W{}".format(i + 1)
-            bkey = "b{}".format(i + 1)
-
-            self.__weights[bkey] = np.zeros((layers[i], 1))
-
             if i == 0:
-                w = np.random.randn(layers[i], nx) * np.sqrt(2 / nx)
+                self.__weights["W" + str(i + 1)] = np.random.randn(
+                            layers[i], nx)*np.sqrt(2/(nx))
+                self.__weights["b" + str(i + 1)] = np.zeros((layers[i], 1))
             else:
-                w = np.random.randn(layers[i], layers[i - 1])
-                w = w * np.sqrt(2 / layers[i - 1])
-            self.__weights[wkey] = w
+                self.__weights["W" + str(i + 1)] = np.random.randn(
+                            layers[i], layers[i-1]) * np.sqrt(2/(layers[i-1]))
+                self.__weights["b" + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
     def L(self):
-        """
-        getter function for L
-        Returns the number of layers
+        """ Get the L (amount of layers)
         """
         return self.__L
 
     @property
     def cache(self):
-        """
-        getter gunction for cache
-        Returns a dictionary to hold all intermediary values of the network
+        """ Get the cache
         """
         return self.__cache
 
     @property
     def weights(self):
-        """
-        getter function for weights
-        Returns a dictionary to hold all weights and biased of the network
+        """ Get the weights
         """
         return self.__weights
+
+    def softmax(self, x):
+        """[summary]
+        Args:
+            x ([type]): [description]
+        Returns:
+            [type]: [description]
+        """
+        e_x = np.exp(x - np.max(x))
+        return e_x / e_x.sum(axis=0)
 
     def forward_prop(self, X):
         """
@@ -100,37 +84,6 @@ class DeepNeuralNetwork:
             else:
                 self.__cache["A" + str(i + 1)] = 1 / (1 + np.exp(-1 * z))
         return self.__cache["A" + str(self.__L)], self.__cache
-
-    def sigmoid(self, z):
-        """
-        Applies the sigmoid activation function
-        Arguments:
-        - z (numpy.ndattay): with shape (nx, m) that contains the input data
-         * nx is the number of input features to the neuron.
-         * m is the number of examples
-        Updates the private attribute __A
-        The neuron should use a sigmoid activation function
-        Return:
-        The private attribute A
-        """
-        y_hat = 1 / (1 + np.exp(-z))
-        return y_hat
-
-    def softmax(self, z):
-        """
-        Applies the softmax activation function
-        Arguments:
-        - z (numpy.ndattay): with shape (nx, m) that contains the input data
-         * nx is the number of input features to the neuron.
-         * m is the number of examples
-        Updates the private attribute __A
-        The neuron should use a sigmoid activation function
-
-        Return:
-        The private attribute y_hat
-        """
-        y_hat = np.exp(x - np.max(x))
-        return y_hat / y_hat.sum(axis=0)
 
     def cost(self, Y, A):
         """
