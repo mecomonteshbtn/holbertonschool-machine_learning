@@ -142,6 +142,7 @@ class DeepNeuralNetwork:
     def evaluate(self, X, Y):
         """
         Evaluates the neural network’s predictions
+
         Arguments:
          - X is a numpy.ndarray with shape (nx, m) that contains the input data
            * nx is the number of input features to the neuron
@@ -159,6 +160,7 @@ class DeepNeuralNetwork:
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
         Calculates one pass of gradient descent on the neural network
+
         Arguments:
          - Y (numpy.ndarray) with shape (1, m) that contains the correct
            labels for the input data
@@ -202,15 +204,14 @@ class DeepNeuralNetwork:
          - graph (boolean): that defines whether or not to graph information
               about the training once the training has completed
         """
-
         if type(iterations) is not int:
             raise TypeError("iterations must be an integer")
-        if iterations < 0:
+        if iterations <= 0:
             raise ValueError("iterations must be a positive integer")
 
         if type(alpha) is not float:
             raise TypeError("alpha must be a float")
-        if alpha < 0:
+        if alpha <= 0:
             raise ValueError("alpha must be positive")
 
         if verbose is True or graph is True:
