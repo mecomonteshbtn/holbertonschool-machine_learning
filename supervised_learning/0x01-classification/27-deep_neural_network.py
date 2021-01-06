@@ -84,30 +84,22 @@ class DeepNeuralNetwork:
 
     def forward_prop(self, X):
         """
-        Calculates the forward propagation of the neural network
-        Arguments:
-         - X (numpy.ndarray): with shape (nx, m) that contains the input data
-           * nx is the number of input features to the neuron
-           * m is the number of examples
+        - Calculates the forward propagation of the neural network.
+        - X is a numpy.ndarray with shape (nx, m) that contains the input data,
+        nx is the number of input features to the neuron and m is the number
+        of examples.
         """
-        self.__cache['A0'] = X
-
-        for i in range(self.__L):
-            wkey = "W{}".format(i + 1)
-            bkey = "b{}".format(i + 1)
-            Aprevkey = "A{}".format(i)
-            Akey = "A{}".format(i + 1)
-            W = self.__weights[wkey]
-            b = self.__weights[bkey]
-            Aprev = self.__cache[Aprevkey]
-
-            z = np.matmul(W, Aprev) + b
-            if i < self.__L - 1:
-                self.__cache[Akey] = self.sigmoid(z)
+        # z = self.__weights["W" + str(1)] @ X + self.__weights["b" + str(1)]
+        # self.__cache["A" + str(0)] = 1 / (1 + np.exp(-1 * z))
+        self.__cache["A" + str(0)] = X
+        for i in range(0, self.__L):
+            z = self.__weights["W" + str(i + 1)] @ self.__cache["A" + str(
+                i)] + self.__weights["b" + str(i + 1)]
+            if i == self.__L - 1:
+                self.__cache["A" + str(i + 1)] = self.softmax(z)
             else:
-                self.__cache[Akey] = self.softmax(z)
-
-        return (self.__cache[Akey], self.__cache)
+                self.__cache["A" + str(i + 1)] = 1 / (1 + np.exp(-1 * z))
+        return self.__cache["A" + str(self.__L)], self.__cache
 
     def sigmoid(self, z):
         """
