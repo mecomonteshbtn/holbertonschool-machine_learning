@@ -152,7 +152,7 @@ class DeepNeuralNetwork:
         Return:
         The private attribute y_hat
         """
-        y_hat = np.exp(x - np.max(x))
+        y_hat = np.exp(z - np.max(z))
         return y_hat / y_hat.sum(axis=0)
 
     def cost(self, Y, A):
