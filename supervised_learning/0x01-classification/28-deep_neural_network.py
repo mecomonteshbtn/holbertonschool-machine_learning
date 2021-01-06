@@ -189,33 +189,36 @@ class DeepNeuralNetwork:
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
-        Calculates one pass of gradient descent on the neural network
-        Arguments:
-         - Y (numpy.ndarray) with shape (1, m) that contains the correct
-           labels for the input data
-         - cache (dictionary): containing all the intermediary values of
-           the network
-         - alpha (float): is the learning rate
+        - Calculates one pass of gradient descent on the neural network.
+        - Y is a numpy.ndarray with shape (1, m) that contains the
+        correct labels for the input data.
+        - cache is a dictionary containing all the intermediary
+        values of the network.
+        - alpha is the learning rate.
+        - Updates the private attribute __weights.
         """
+        # start the backpropagation
         m = Y.shape[1]
-
+        # dA = - (np.divide(Y, A) - np.divide(1 - Y, 1 - A))
+        weights_c = self.__weights.copy()
         for i in range(self.__L, 0, -1):
-            wkey = "W{}".format(i + 1)
-            bkey = "b{}".format(i + 1)
-            A = cache["A{}".format(i)]
+            A = cache["A" + str(i)]
             if i == self.__L:
                 dz = A - Y
             else:
-                if self.__activation == 'sig':
+                if self.__activation == "sig":
                     g = A * (1 - A)
-                else:
-                    g = 1 - np.square(A)
-                dz = np.multiply(self.__weights[wkey].T, g)
-
-            dw = np.matmul(dz, cache["A{}".format(i - 1)].T) / m
+                    dz = (weights_c["W" + str(i + 1)].T @ dz) * g
+                elif self.__activation == "tanh":
+                    g = 1 - (A ** 2)
+                    dz = (weights_c["W" + str(i + 1)].T @ dz) * g
+            dw = (dz @ cache["A" + str(i - 1)].T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
-            self.__weights[wkey] = self.__weights[wkey] - alpha * dw
-            self.__weights[bkey] = self.__weights[bkey] - alpha * db
+            # dz for next iteration
+            self.__weights["W" + str(i)] = self.__weights[
+                    "W" + str(i)] - (alpha * dw)
+            self.__weights["b" + str(i)] = self.__weights[
+                    "b" + str(i)] - (alpha * db)
 
     def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
               graph=True, step=100):
