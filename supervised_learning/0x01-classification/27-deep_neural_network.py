@@ -158,19 +158,20 @@ class DeepNeuralNetwork:
 
     def evaluate(self, X, Y):
         """
-        Evaluates the neural network’s predictions
-        Arguments:
-         - X is a numpy.ndarray with shape (nx, m) that contains the input data
-           * nx is the number of input features to the neuron
-           * m is the number of examples
-         - Y (numpy.ndarray): with shape (1, m) that contains the correct
-             labels for the input data
-        Returns:
-         The neuron’s prediction and the cost of the network, respectively
+        - Evaluates the neural network’s predictions
+        - X is a numpy.ndarray with shape (nx, m) that contains the input data,
+        nx is the number of input features to the neuron and m is the number
+        of examples.
+        - Y is a numpy.ndarray with shape (1, m) that contains the correct
+        labels for the input data.
+        - Returns the neuron’s prediction and the cost of the network,
+        respectively.
         """
         A, _ = self.forward_prop(X)
         cost = self.cost(Y, A)
+        # selects the max of each column, in a column vector
         Y_hat = np.max(A, axis=0)
+        # put 1 in the max of each column, 0 otherwise
         A = np.where(A == Y_hat, 1, 0)
         return A, cost
 
