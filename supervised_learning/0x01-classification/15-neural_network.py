@@ -219,18 +219,18 @@ class NeuralNetwork:
         """
         if type(iterations) is not int:
             raise TypeError("iterations must be an integer")
-        if iterations < 0:
+        if iterations <= 0:
             raise ValueError("iterations must be a positive integer")
 
         if type(alpha) is not float:
             raise TypeError("alpha must be a float")
-        if alpha < 0:
+        if alpha <= 0:
             raise ValueError("alpha must be positive")
 
         if verbose is True or graph is True:
             if type(step) is not int:
                 raise TypeError("step must be an integer")
-            if step < 0 or step > iterations:
+            if step <= 0 or step >= iterations:
                 raise ValueError("step must be positive and <= iterations")
 
         cost_list = []
