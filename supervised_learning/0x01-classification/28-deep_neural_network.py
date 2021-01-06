@@ -189,74 +189,87 @@ class DeepNeuralNetwork:
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
-        Calculates one pass of gradient descent on the neural network
-        Arguments:
-         - Y (numpy.ndarray) with shape (1, m) that contains the correct
-           labels for the input data
-         - cache (dictionary): containing all the intermediary values of
-           the network
-         - alpha (float): is the learning rate
+        - Calculates one pass of gradient descent on the neural network.
+        - Y is a numpy.ndarray with shape (1, m) that contains the
+        correct labels for the input data.
+        - cache is a dictionary containing all the intermediary
+        values of the network.
+        - alpha is the learning rate.
+        - Updates the private attribute __weights.
         """
+        # start the backpropagation
         m = Y.shape[1]
-        Al = cache["A{}".format(self.__L)]
-        dAl = (-Y / Al) + (1 - Y)/(1 - Al)
-
-        for i in reversed(range(1, self.__L + 1)):
-            wkey = "W{}".format(i)
-            bkey = "b{}".format(i)
-            Al = cache["A{}".format(i)]
-            Al1 = cache["A{}".format(i - 1)]
-            if self.__activation == 'sig':
-                g = Al * (1 - Al)
+        # dA = - (np.divide(Y, A) - np.divide(1 - Y, 1 - A))
+        weights_c = self.__weights.copy()
+        for i in range(self.__L, 0, -1):
+            A = cache["A" + str(i)]
+            if i == self.__L:
+                dz = A - Y
             else:
-                g = 1 - np.square(Al)
-            dZ = np.multiply(dAl, g)
-            dW = np.matmul(dZ, Al1.T) / m
-            db = np.sum(dZ, axis=1, keepdims=True) / m
-            W = self.__weights["W{}".format(i)]
-            dAl = np.matmul(W.T, dZ)
-
-            self.__weights[wkey] = self.__weights[wkey] - alpha * dW
-            self.__weights[bkey] = self.__weights[bkey] - alpha * db
+                if self.__activation == "sig":
+                    g = A * (1 - A)
+                    dz = (weights_c["W" + str(i + 1)].T @ dz) * g
+                elif self.__activation == "tanh":
+                    g = 1 - (A ** 2)
+                    dz = (weights_c["W" + str(i + 1)].T @ dz) * g
+            dw = (dz @ cache["A" + str(i - 1)].T) / m
+            db = np.sum(dz, axis=1, keepdims=True) / m
+            # dz for next iteration
+            self.__weights["W" + str(i)] = self.__weights[
+                    "W" + str(i)] - (alpha * dw)
+            self.__weights["b" + str(i)] = self.__weights[
+                    "b" + str(i)] - (alpha * db)
 
     def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
               graph=True, step=100):
         """
-        - Trains the deep neural network.
-        - X is a numpy.ndarray with shape (nx, m)
-        that contains the input data, nx is the number of input
-        features to the neuron and m is the number of examples.
-        - Y is a numpy.ndarray with shape (1, m) that contains
-        the correct labels for the input data.
-        - iterations is the number of iterations to train over.
-        - alpha is the learning rate.
+        Trains the deep neural network by updating the private attributes
+        Arguments:
+         - X (numpy.ndarray): with shape (nx, m) that contains the input data
+           * nx is the number of input features to the neuron
+           * m is the number of examples
+         - Y (numpy.ndarray):  with shape (1, m) that contains the correct
+              labels for the input data
+         - iterations (int): is the number of iterations to train over
+         - alpha (float): is the learning rate
+         - varbose (boolean): that defines whether or not to print
+              information about the training
+         - graph (boolean): that defines whether or not to graph information
+              about the training once the training has completed
         """
-        if not isinstance(iterations, int):
+
+        if type(iterations) is not int:
             raise TypeError("iterations must be an integer")
         if iterations <= 0:
             raise ValueError("iterations must be a positive integer")
-        if not isinstance(alpha, float):
+
+        if type(alpha) is not float:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
 
-        cst = []
-        it = []
-        for epoc in range(0, iterations):
+        if verbose is True or graph is True:
+            if type(step) is not int:
+                raise TypeError("step must be an integer")
+            if step <= 0 or step >= iterations:
+                raise ValueError("step must be positive and <= iterations")
+
+        cost_list = []
+        step_list = []
+        for i in range(iterations):
             A, self.__cache = self.forward_prop(X)
             self.gradient_descent(Y, self.__cache, alpha)
-            c = self.cost(Y, A)
-            cst.append(c)
-            it.append(epoc)
-            if verbose and epoc % step == 0:
-                print("Cost after {} iterations: {}".format(epoc, c))
-        if verbose and (epoc + 1) % step == 0:
-            print("Cost after {} iterations: {}".format(epoc + 1, c))
+            cost = self.cost(Y, A)
+            cost_list.append(cost)
+            step_list.append(i)
+            if verbose and i % step == 0:
+                print("Cost after {} iterations: {}".format(i, cost))
+
         if graph:
-            plt.title("Training Cost")
-            plt.xlabel("iteration")
-            plt.ylabel("cost")
-            plt.plot(it, cst, 'b-')
+            plt.plot(step_list, cost_list)
+            plt.xlabel('iteration')
+            plt.ylabel('cost')
+            plt.title("Trainig Cost")
             plt.show()
 
         return self.evaluate(X, Y)
