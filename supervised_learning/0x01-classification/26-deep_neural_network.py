@@ -204,39 +204,32 @@ class DeepNeuralNetwork:
          - graph (boolean): that defines whether or not to graph information
               about the training once the training has completed
         """
-        if type(iterations) is not int:
+        if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
         if iterations <= 0:
             raise ValueError("iterations must be a positive integer")
-
-        if type(alpha) is not float:
+        if not isinstance(alpha, float):
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
 
-        if verbose is True or graph is True:
-            if type(step) is not int:
-                raise TypeError("step must be an integer")
-            if step < 0 or step > iterations:
-                raise ValueError("step must be positive and <= iterations")
-
-        cost_list = []
-        step_list = []
-        for i in range(iterations + 1):
+        cst = []
+        it = []
+        for epoc in range(0, iterations):
             A, self.__cache = self.forward_prop(X)
             self.gradient_descent(Y, self.__cache, alpha)
-            cost = self.cost(Y, A)
-
-            if verbose and i % step == 0:
-                cost_list.append(cost)
-                step_list.append(i)
-                print("Cost after {} iterations: {}".format(i, cost))
-
+            c = self.cost(Y, A)
+            cst.append(c)
+            it.append(epoc)
+            if verbose and epoc % step == 0:
+                print("Cost after {} iterations: {}".format(epoc, c))
+        if verbose and (epoc + 1) % step == 0:
+            print("Cost after {} iterations: {}".format(epoc + 1, c))
         if graph:
-            plt.plot(step_list, cost_list)
-            plt.xlabel('iteration')
-            plt.ylabel('cost')
-            plt.title("Trainig Cost")
+            plt.title("Training Cost")
+            plt.xlabel("iteration")
+            plt.ylabel("cost")
+            plt.plot(it, cst, 'b-')
             plt.show()
 
         return self.evaluate(X, Y)
