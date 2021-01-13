@@ -427,3 +427,6 @@ ubuntu@alexa-ml:~/0x02-tensorflow$ ./7-main.py
 Test Accuracy: 0.9096
 Test Cost: 0.32148978
 ```
+## Authors
+
+* **Robinson Montes** - [mecomonteshbtn](https://github.com/mecomonteshbtn)
