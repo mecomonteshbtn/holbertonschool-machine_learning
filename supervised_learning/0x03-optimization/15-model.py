@@ -67,17 +67,21 @@ def forward_prop(x, layer_sizes, activations, epsilon=1e-8):
     """
     Function that creates the forward propagation graph for the NN
     Arguments:
-     - x placeholder for the input data
-     - layer list containing the number of nodes in each layer of the network
-     - param activations list that containins the activation functions
-        for each layer of the network
-    Return:
-     A tensor with the prediction of the network
+     - x: is the placeholder for the input data.
+     - layer_sizes: is a list containing the number of nodes in each layer of
+      the network.
+     _ activations: is a list containing the activation functions for each
+      layer of the network.
+    Returns:
+    The prediction of the network in tensor form
     """
-    layer = create_layer(x, layer_sizes[0], activations[0])
-    for i in range(1, len(layer_sizes)):
-        layer = create_layer(layer, layer_sizes[i], activations[i])
-
+    for i in range(len(layer_sizes)):
+        if i < len(layer_sizes) - 1:
+            layer = create_batch_norm_layer(x, layer_sizes[i], activations[i],
+                                            epsilon=1e-8)
+        else:
+            layer = create_layer(x, layer_sizes[i], activations[i])
+        x = layer
     return layer
 
 
@@ -110,7 +114,7 @@ def calculate_loss(y, y_pred):
     return loss
 
 
-def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
+def create_Adam_op(loss, alpha, beta1, beta2, epsilon=1e-8):
     """
     Function that creates the training operation for a NN in tensorflow
     using the Adam optimization algorithm
@@ -131,7 +135,7 @@ def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
     return optimized_adam
 
 
-def create_batch_norm_layer(prev, n, activation):
+def create_batch_norm_layer(prev, n, activation, epsilon=1e-8):
     """
     Function that creates a batch normalization layer for a NN in tensorflow:
     Arguments:
@@ -151,7 +155,7 @@ def create_batch_norm_layer(prev, n, activation):
     mt, vt = tf.nn.moments(z, [0])
     beta = tf.Variable(tf.zeros([z.get_shape()[-1]]))
     gamma = tf.Variable(tf.ones([z.get_shape()[-1]]))
-    zt = tf.nn.batch_normalization(z, mt, vt, beta, gamma, 1e-8)
+    zt = tf.nn.batch_normalization(z, mt, vt, beta, gamma, epsilon)
     y_pred = activation(zt)
 
     return y_pred
@@ -231,12 +235,15 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
 
     nx = Data_train[0].shape[1]
     classes = Data_train[1].shape[1]
+
     x, y = create_placeholders(nx, classes)
     y_pred = forward_prop(x, layers, activations, epsilon)
     loss = calculate_loss(y, y_pred)
     accuracy = calculate_accuracy(y, y_pred)
+
     m = Data_train[0].shape[0]
     batches = int(m / batch_size) + (m % batch_size > 0)
+
     global_step = tf.Variable(0, trainable=False)
     increment_global_step = tf.assign_add(global_step, 1,
                                           name='increment_global_step')
