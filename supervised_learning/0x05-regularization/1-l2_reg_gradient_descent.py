@@ -22,27 +22,15 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
      - L is the number of layers of the network
      """
 
-    m = Y.shape[1]
-    Al = cache['A' + str(L)]
-    dAl = Al - Y
-
-    for layer in reversed(range(1, L + 1)):
-        w_key = 'W' + str(layer)
-        b_key = 'b' + str(layer)
-        Al_key = 'A' + str(layer)
-        Al1_key = 'A' + str(layer - 1)
-
-        Al = cache[Al_key]
-        gld = 1 - np.square(Al)
-        if layer == L:
-            dZl = dAl
-        else:
-            dZl = dAl * gld
-
-        Wl = weights[w_key]
-        Al1 = cache[Al1_key]
-        dWl = (np.matmul(dZl, Al1.T) + lambtha * Wl / 2 ) / m
-        dbl = np.sum(dZl, axis=1, keepdims=True) / m
-        dAl = np.matmul(Wl.T, dZl)
-        weights[w_key] = weights[w_key] - alpha * dWl
-        weights[b_key] = weights[b_key] - alpha * dbl
+    weights_copy = weights.copy()
+    dz = cache["A" + str(L)] - Y
+    for i in range(L, 0, -1):
+        A = cache["A" + str(i - 1)]
+        w = "W" + str(i)
+        b = "b" + str(i)
+        dw = (1 / len(Y[0])) * np.matmul(dz, A.T) + (
+            lambtha * weights[w]) / len(Y[0])
+        db = (1 / len(Y[0])) * np.sum(dz, axis=1, keepdims=True)
+        weights[w] = weights[w] - alpha * dw
+        weights[b] = weights[b] - alpha * db
+        dz = np.matmul(weights_copy["W" + str(i)].T, dz) * (1 - A * A)
