@@ -5,9 +5,7 @@ Created on Tue Jan 26 11:00:22 2021
 
 @author: Robinson Montes
 """
-from tensorflow.keras.models import Sequential
-from tensorflow.keras import reguralizers
-from tensorflow.keras.layers import Dense, Dropout
+import tensorflow.keras as K
 
 
 def build_model(nx, layers, activations, lambtha, keep_prob):
@@ -24,17 +22,17 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     Returns:
      The keras model
     """
-    model = Sequential()
-    regularizer = regularizers.l2(lambtha)
-    model.add(Dense(layers[0], input_shape=(nx,),
+    model = K.Sequential()
+    regularizer = K.regularizers.l2(lambtha)
+    model.add(K.layers.Dense(layers[0], input_shape=(nx,),
                              activation=activations[0],
                              kernel_regularizer=regularizer,
                              name='dense'))
 
     for layer in range(1, len(layers)):
         dname = 'dense_' + str(layer)
-        model.add(Dropout(1 - keep_prob))
-        model.add(Dense(layers[layer],
+        model.add(K.layers.Dropout(1 - keep_prob))
+        model.add(K.layers.Dense(layers[layer],
                                  activation=activations[layer],
                                  kernel_regularizer=regularizer,
                                  name=dname))
