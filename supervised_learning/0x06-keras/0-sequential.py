@@ -30,11 +30,10 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
                              name='dense'))
 
     for layer in range(1, len(layers)):
-        dname = 'dense_' + str(layer)
         model.add(K.layers.Dropout(1 - keep_prob))
         model.add(K.layers.Dense(layers[layer],
                                  activation=activations[layer],
                                  kernel_regularizer=regularizer,
-                                 name=dname))
+                                 name='dense_' + str(layer)))
 
     return model
