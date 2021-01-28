@@ -40,8 +40,8 @@ def convolve_grayscale_padding(images, kernel, padding):
     ph = padding[0]
     pw = padding[1]
 
-    hfinal = himage + (2 * ph) - hkernel + 1
-    wfinal = wimage + (2 * pw) - wkernel + 1
+    hfinal = himage + 2 * ph - hkernel + 1
+    wfinal = wimage + 2 * pw - wkernel + 1
 
     convoluted = np.zeros((m, hfinal, wfinal))
 
