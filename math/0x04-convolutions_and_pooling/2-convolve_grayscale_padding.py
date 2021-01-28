@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Convolution with Padding
+Created on Thu Jan  28 17:45:46 2021
+
+@author: Robinson Montes
 """
-
-
 import numpy as np
 
 

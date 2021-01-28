@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Same Convolution
+Created on Thu Jan  28 17:45:46 2021
+
+@author: Robinson Montes
 """
-
-
 import numpy as np
 
 
