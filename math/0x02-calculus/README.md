@@ -307,4 +307,6 @@ alexa@ubuntu:0x02-calculus$ ./17-main.py
 [0, 5, 1.5, 0, 0.25]
 alexa@ubuntu:0x02-calculus$
 ```
+## Authors
 
+* **Robinson Montes** - [mecomonteshbtn](https://github.com/mecomonteshbtn)

@@ -35,32 +35,22 @@ def pool(images, kernel_shape, stride, mode='max'):
      A numpy.ndarray containing the pooled images
     """
 
-    m = images.shape[0]
-    himage = images.shape[1]
-    wimage = images.shape[2]
-    ncimage = images.shape[3]
-    hkernel = kernel_shape[0]
-    wkernel = kernel_shape[1]
-    sh = stride[0]
-    sw = stride[1]
+    m, h, w, c = images.shape
+    hk, wk = kernel_shape
+    hs, ws = stride
 
-    hfinal = int(((himage - hkernel) / sh) + 1)
-    wfinal = int(((wimage - wkernel) / sw) + 1)
-    pooled = np.zeros((m, hfinal, wfinal, ncimage))
-    mImage = np.arange(0, m)
+    h_output = (h - hk) // hs + 1
+    w_output = (w - wk) // ws + 1
+    pooled = np.zeros((m, h_output, w_output, c))
 
-    for i in range(hfinal):
-        for j in range(wfinal):
+    for i in range(h_output):
+        for j in range(w_output):
+            x = hk + i * hs
+            y = wk + j * ws
             if mode == 'max':
-                data = np.max(images[mImage,
-                                     i*sh:hkernel+(i*sh),
-                                     j*sw:wkernel+(j*sw)],
-                              axis=(1, 2))
+                data = np.max(images[:, i*hs:x, j*ws:y], axis=(1, 2))
             if mode == 'avg':
-                data = np.mean(images[mImage,
-                                      i*sh:hkernel+(i*sh),
-                                      j*sw:wkernel+(j*sw)],
-                               axis=(1, 2))
-            pooled[mImage, i, j] = data
+                data = np.mean(images[:, i*hs:x, j*ws:y], axis=(1, 2))
+            pooled[:, i, j] = data
 
     return pooled

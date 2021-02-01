@@ -250,6 +250,13 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
     alpha = learning_rate_decay(alpha, decay_rate, global_step, batches)
     train_op = create_Adam_op(loss, alpha, beta1, beta2, epsilon)
 
+    tf.add_to_collection('x', x)
+    tf.add_to_collection('y', y)
+    tf.add_to_collection('y_pred', y_pred)
+    tf.add_to_collection('loss', loss)
+    tf.add_to_collection('accuracy', accuracy)
+    tf.add_to_collection('train_op', train_op)
+
     X_train = Data_train[0]
     Y_train = Data_train[1]
     X_valid = Data_valid[0]

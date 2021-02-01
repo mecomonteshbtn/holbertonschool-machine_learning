@@ -37,38 +37,31 @@ def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
      A numpy.ndarray containing the convolved images
     """
 
-    m = images.shape[0]
-    himage = images.shape[1]
-    wimage = images.shape[2]
-    hkernel = kernel.shape[0]
-    wkernel = kernel.shape[1]
-    sh = stride[0]
-    sw = stride[1]
+    m, h, w = images.shape
+    hk, wk = kernel.shape
+    hs, ws = stride
 
     if padding == 'same':
-        ph = int(((himage - 1) * sh + hkernel - himage) / 2) + 1
-        pw = int(((wimage - 1) * sw + wkernel - wimage) / 2) + 1
+        ph = ((h - 1) * hs + hk - h) // 2 + 1
+        pw = ((w - 1) * ws + wk - w) // 2 + 1
     if padding == 'valid':
         ph = 0
         pw = 0
     if type(padding) is tuple:
-        ph = padding[0]
-        pw = padding[1]
+        ph, pw = padding
 
-    hfinal = int(((himage - hkernel + (2 * ph)) / sh) + 1)
-    wfinal = int(((wimage - wkernel + (2 * pw)) / sw) + 1)
-    convoluted = np.zeros((m, hfinal, wfinal))
+    h_output = (h - hk + 2 * ph) // hs + 1
+    w_output = (w - wk + 2 * pw) // ws + 1
+    outputs = np.zeros((m, h_output, w_output))
 
-    mImage = np.arange(0, m)
     images = np.pad(images, [(0, 0), (ph, ph), (pw, pw)], 'constant',
                     constant_values=0)
 
-    for i in range(hfinal):
-        for j in range(wfinal):
-            data = np.sum(np.multiply(images[mImage,
-                                             i*sh:hkernel+(i*sh),
-                                             j*sw:wkernel+(j*sw)],
-                          kernel), axis=(1, 2))
-            convoluted[mImage, i, j] = data
+    for i in range(h_output):
+        for j in range(w_output):
+            x = hk + i * hs
+            y = wk + j * ws
+            outputs[:, i, j] = np.sum(np.multiply(images[:, i*hs:x, j*ws:y],
+                                                  kernel), axis=(1, 2))
 
-    return convoluted
+    return outputs
