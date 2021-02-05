@@ -48,7 +48,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
      the previous layer (dA_prev), the kernels (dW),
      and the biases (db), respectively
     """
-    m_z, h_new, w_new, c_newz = dZ.shape
+    m, h_new, w_new, c_new = dZ.shape
     m, h_prev, w_prev, c_prev = A_prev.shape
     kh, kw, c_prev, c_new = W.shape
     sh, sw = stride
@@ -58,15 +58,14 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         pw = 0
 
     if padding == 'same':
-        ph = np.ceil(max((h_prev - 1) * sh + kh - h_prev, 0) // 2)
-        pw = np.ceil(max((w_prev - 1) * sw + kw - w_prev, 0) // 2)
+        ph = ((h_prev - 1) * sh + kh - h_prev) // 2 + 1
+        pw = ((w_prev - 1) * sw + kw - w_prev) // 2 + 1
         A_prev = np.pad(A_prev, pad_width=((0, 0), (ph, ph), (pw, pw), (0, 0)),
                         mode='constant', constant_values=0)
 
     dW = np.zeros(W.shape)
     dA_prev = np.zeros(A_prev.shape)
-    db = np.zeros(b.shape)
-    db[:, :, 0, :] = np.sum(dZ, axis=(0, 1, 2))
+    db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
     for i in range(m):
         for h in range(h_new):
