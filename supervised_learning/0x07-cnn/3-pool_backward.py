@@ -39,11 +39,8 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
     """
 
     m, h_new, w_new, c_new = dA.shape
-
     m, h_prev, w_prev, c = A_prev.shape
-
     kh, kw = kernel_shape
-
     sh, sw = stride
 
     dx = np.zeros_like(A_prev)
@@ -55,9 +52,11 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
                     y = kw + w * sw
                     if mode == 'max':
                         aux = A_prev[i, h*sh:x, w*sw:y, cn]
-                        mask = (aux == np.max(aux))
+                        mask = np.where(aux == np.max(aux), 1, 0)
                         dx[i, h*sh:x, w*sw:y, cn] += dA[i, h, w, cn] * mask
-                    if mode == 'avg':
-                        dx[i, h*sh:x, w*sw:y, cn] += dA[i, h, w, cn] / kh * kw
+                    else:
+                        avg = dA[i, h, w, cn] / (kw * kh)
+                        dx[i,
+                           h*sh:x, w*sw:y, cn] += np.ones(kernel_shape) * avg
 
     return dx
