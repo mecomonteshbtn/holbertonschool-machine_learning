@@ -92,7 +92,8 @@ class Yolo():
             for each output, respectively
         """
 
-        img_height, img_width = image_size.shape
+        img_height = image_size[0]
+        img_width = image_size[1]
 
         boxes = []
         box_confidences = []
