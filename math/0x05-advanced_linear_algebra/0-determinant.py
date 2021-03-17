@@ -1,56 +1,40 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Thu Mar 15 7:45:46 2021
+Advanced Linear Algebra
 
-@author: Robinson Montes
+not allowed to import any module
+must be done by hand!
 """
 
 
 def determinant(matrix):
+    """Calculates the determinant of a matrix
+
+    matrix is a square list of lists whose determinant should be calculated
+    Returns: the determinant of matrix
     """
-    Function that calculates the determinant of a matrix:
-
-    Arguments:
-     - matrix is a list of lists whose determinant should be calculated
-
-    Returns:
-     The determinant of matrix
-    """
-
-    if not isinstance(matrix, list) or len(matrix) == 0:
-        raise TypeError("matrix must be a list of lists")
-
-    if len(matrix) == 1 and len(matrix[0]) == 0:
+    if matrix == [[]]:
         return 1
-
-    for r in matrix:
-        if not isinstance(r, list):
-            raise TypeError("matrix must be a list of lists")
-
-    for r in matrix:
-        if len(r) != len(matrix):
-            raise ValueError('matrix must be a square matrix')
-
-    if len(matrix) == 1:
+    if type(matrix) is not list or len(matrix) < 1 or\
+            not all(isinstance(x, list) for x in matrix):
+        raise TypeError("matrix must be a list of lists")
+    if not all(len(matrix) == len(x) for x in matrix):
+        raise ValueError("matrix must be a square matrix")
+    copy = list(map(list, matrix))
+    dim = len(matrix)
+    if dim == 1:
         return matrix[0][0]
-
-    if len(matrix) == 2:
-        det = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
-        return det
-
-    det = 0
-    for i, j in enumerate(matrix[0]):
-        row = [r for r in matrix[1:]]
-        sub_m = []
-
-        for r in row:
-            aux = []
-            for c in range(len(matrix)):
-                if c != i:
-                    aux.append(r[c])
-            sub_m.append(aux)
-
-        det += j * (-1) ** i * determinant(sub_m)
-
+    elif dim == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1]
+    else:
+        for cur in range(dim):
+            for i in range(cur + 1, dim):
+                if copy[cur][cur] == 0:
+                    copy[cur][cur] = 1.0e-18
+                curScaler = copy[i][cur] / copy[cur][cur]
+                for j in range(dim):
+                    copy[i][j] = copy[i][j] - curScaler * copy[cur][j]
+        det = 1.0
+        for i in range(dim):
+            det *= copy[i][i]
     return det
