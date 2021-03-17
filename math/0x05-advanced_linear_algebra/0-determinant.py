@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Advanced Linear Algebra
+Created on Thu Mar 15 7:45:46 2021
 
-not allowed to import any module
-must be done by hand!
+@author: Robinson Montes
 """
 
 
 def determinant(matrix):
-    """Calculates the determinant of a matrix
-
-    matrix is a square list of lists whose determinant should be calculated
-    Returns: the determinant of matrix
     """
+    Function that calculates the determinant of a matrix:
+
+    Arguments:
+     - matrix is a list of lists whose determinant should be calculated
+
+    Returns:
+     The determinant of matrix
+    """
+
     if not isinstance(matrix, list) or len(matrix) == 0:
         raise TypeError("matrix must be a list of lists")
 
