@@ -8,14 +8,9 @@ Created on Thu Mar 15 7:45:46 2021
 
 
 def determinant(matrix):
-    """
-    Function that calculates the determinant of a matrix:
-
-    Arguments:
-     - matrix is a list of lists whose determinant should be calculated
-
-    Returns:
-     The determinant of matrix
+    """ Calculates the determinant of a matrix
+        matrix is a square list of lists whose determinant should be calculated
+        Returns: the determinant of matrix
     """
     if matrix == [[]]:
         return 1
