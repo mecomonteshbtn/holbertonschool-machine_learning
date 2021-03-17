@@ -18,21 +18,14 @@ def determinant(matrix):
      The determinant of matrix
     """
 
-    if not isinstance(matrix, list) or len(matrix) == 0:
-        raise TypeError("matrix must be a list of lists")
-
-    if len(matrix) == 1 and len(matrix[0]) == 0:
+    if matrix == [[]]:
         return 1
-
-    for r in matrix:
-        if not isinstance(r, list):
-            raise TypeError("matrix must be a list of lists")
-
-    for r in matrix:
-        if len(r) != len(matrix):
-            raise ValueError('matrix must be a square matrix')
-
-    copy = list(map(list, matrix))
+    if type(matrix) is not list or len(matrix) < 1 or\
+            not all(isinstance(x, list) for x in matrix):
+        raise TypeError("matrix must be a list of lists")
+    if not all(len(matrix) == len(x) for x in matrix):
+        raise ValueError("matrix must be a square matrix")
+    copy = matrix
     dim = len(matrix)
     if dim == 1:
         return matrix[0][0]
@@ -46,7 +39,7 @@ def determinant(matrix):
                 curScaler = copy[i][cur] / copy[cur][cur]
                 for j in range(dim):
                     copy[i][j] = copy[i][j] - curScaler * copy[cur][j]
-        det = 1.0
+        det = 1
         for i in range(dim):
             det *= copy[i][i]
     return det
