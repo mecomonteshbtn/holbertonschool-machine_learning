@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Thu Mar 15 7:45:46 2021
-
-@author: Robinson Montes
+    Advanced Linear Algebra
+    not allowed to import any module
+    must be done by hand!
 """
 
 
