@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""
-    Advanced Linear Algebra
-    not allowed to import any module
-    must be done by hand!
+"""Some documentation
 """
 
 
