@@ -17,7 +17,6 @@ def determinant(matrix):
     Returns:
      The determinant of matrix
     """
-
     if matrix == [[]]:
         return 1
     if type(matrix) is not list or len(matrix) < 1 or\
