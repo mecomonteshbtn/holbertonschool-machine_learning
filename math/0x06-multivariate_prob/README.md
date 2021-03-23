@@ -34,10 +34,6 @@
 | [1-correlation.py](1-correlation.py) | Function correlation that calculates a correlation matrix. |
 | [multinormal.py](multinormal.py) | Class MultiNormal that represents a Multivariate Normal distribution. |
 | [multinormal.py](multinormal.py) | Update the class MultiNormal adding public instance method pdf that calculates the PDF at a data point. |
-| []() | . |
-| []() | . |
-| []() | . |
-| []() | . |
 
 ---
 ## Build with
