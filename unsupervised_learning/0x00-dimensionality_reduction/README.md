@@ -14,13 +14,34 @@
 
 ---
 ## Resources
+*    [Dimensionality Reduction For Dummies — Part 1: Intuition](https://towardsdatascience.com/https-medium-com-abdullatif-h-dimensionality-reduction-for-dummies-part-1-a8c9ec7b7e79)
+*    [Singular Value Decomposition](https://www.youtube.com/watch?v=P5mlg91as1c)
+*    [Understanding SVD (Singular Value Decomposition)](https://towardsdatascience.com/svd-8c2f72e264f)
+*    [Intuitively, what is the difference between Eigendecomposition and Singular Value Decomposition?](https://math.stackexchange.com/questions/320220/intuitively-what-is-the-difference-between-eigendecomposition-and-singular-valu)
+*    [Dimensionality Reduction: Principal Components Analysis, Part 1](https://www.youtube.com/watch?v=ZqXnPcyIAL8)
+*    [Dimensionality Reduction: Principal Components Analysis, Part 2](https://www.youtube.com/watch?v=NUn6WeFM5cM)
+*    [StatQuest: t-SNE, Clearly Explained](https://www.youtube.com/watch?v=NEaUSP4YerM)
+*    [t-SNE tutorial Part1](https://www.youtube.com/watch?v=ohQXphVSEQM)
+*    [t-SNE tutorial Part2](https://www.youtube.com/watch?v=W-9L6v_rFIE)
+*    [How to Use t-SNE Effectively](https://distill.pub/2016/misread-tsne/)
 
-**Read or watch**:
+### Definitions to skim:
+*    [Dimensionality Reduction](https://en.wikipedia.org/wiki/Dimensionality_reduction)
+*    [Principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis)
+*    [Eigendecomposition of a matrix](https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix)
+*    [Singular value decomposition](https://en.wikipedia.org/wiki/Singular_value_decomposition)
+*    [Manifold check this out if you have never heard this term before](https://en.wikipedia.org/wiki/Manifold)
+*    [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence#:~:text=In%20the%20simple%20case%2C%20a,mechanics%2C%20neuroscience%20and%20machine%20learning.)
+*    [T-distributed stochastic neighbor embedding](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding)
 
-*   [Bayes’ Theorem - The Simplest Case](https://www.youtube.com/watch?v=XQoLVl31ZfQ "Bayes' Theorem - The Simplest Case")
-*   [A visual guide to Bayesian thinking](https://www.youtube.com/watch?v=BrK7X_XlGB8 "A visual guide to Bayesian thinking")
-*   [Base Rates](http://onlinestatbook.com/2/probability/base_rates.html "Base Rates")
-*   [Bayesian statistics: a comprehensive course](https://www.youtube.com/playlist?list=PLFDbGp5YzjqXQ4oE4w9GVWdiokWB9gEpm "Bayesian statistics: a comprehensive course")
+### As references:
+*    [numpy.cumsum](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.cumsum.html)
+*    [Visualizing Data using t-SNE (paper)](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf)
+*    [Visualizing Data Using t-SNE (video)](https://www.youtube.com/watch?v=RJVL80Gg3lA)
+
+### Advanced:
+*    [Kernel principal component analysis](https://en.wikipedia.org/wiki/Kernel_principal_component_analysis)
+*    [Nonlinear Dimensionality Reduction: KPCA](https://www.youtube.com/watch?v=HbDHohXPLnU)
 
 ---
 ## Files
@@ -43,116 +64,212 @@
 - Ubuntu 20.04 LTS 
 
 ---
-
-### [0. Likelihood](./0-likelihood.py)
-You are conducting a study on a revolutionary cancer drug and are looking to find the probability that a patient who takes this drug will develop severe side effects. During your trials, `n` patients take the drug and `x` patients develop severe side effects. You can assume that `x` follows a binomial distribution.
-
-Write a function `def likelihood(x, n, P):` that calculates the likelihood of obtaining this data given various hypothetical probabilities of developing severe side effects:
-*   `x` is the number of patients that develop severe side effects
-*   `n` is the total number of patients observed
-*   `P` is a 1D `numpy.ndarray` containing the various hypothetical probabilities of developing severe side effects
-*   If `n` is not a positive integer, raise a `ValueError` with the message `n must be a positive integer`
-*   If `x` is not an integer that is greater than or equal to `0`, raise a `ValueError` with the message `x must be an integer that is greater than or equal to 0`
-*   If `x` is greater than `n`, raise a `ValueError` with the message `x cannot be greater than n`
-*   If `P` is not a 1D `numpy.ndarray`, raise a `TypeError` with the message `P must be a 1D numpy.ndarray`
-*   If any value in `P` is not in the range `[0, 1]`, raise a `ValueError` with the message `All values in P must be in the range [0, 1]`
-*   Returns: a 1D `numpy.ndarray` containing the likelihood of obtaining the data, `x` and `n`, for each probability in `P`, respectively
+### [0. PCA](./0-pca.py)
+Write a function `def pca(X, var=0.95):` that performs PCA on a dataset:
+*   `X` is a `numpy.ndarray` of shape `(n, d)` where:
+    *   `n` is the number of data points
+    *   `d` is the number of dimensions in each point
+    *   all dimensions have a mean of 0 across all data points
+*   `var` is the fraction of the variance that the PCA transformation should maintain
+*   Returns: the weights matrix, `W`, that maintains `var` fraction of `X`‘s original variance
+*   `W` is a `numpy.ndarray` of shape `(d, nd)` where `nd` is the new dimensionality of the transformed `X`
 ```   
-    alexa@ubuntu-xenial:0x07-bayesian_prob$ ./0-main.py 
-    [0.00000000e+00 2.71330957e-04 8.71800070e-02 3.07345706e-03
-     5.93701546e-07 1.14387595e-12 1.09257177e-20 6.10151799e-32
-     9.54415702e-49 1.00596671e-78 0.00000000e+00]
-    alexa@ubuntu-xenial:0x07-bayesian_prob$
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$ ./0-main.py 
+    [[-16.71379391   3.25277063  -3.21956297]
+     [ 16.22654311  -0.7283969   -0.88325252]
+     [ 15.05945199   3.81948929  -1.97153621]
+     [ -7.69814111   5.49561088  -4.34581561]
+     [ 14.25075197   1.37060228  -4.04817187]
+     [-16.66888233  -3.77067823   2.6264981 ]
+     [  6.71765183   0.18115089  -1.91719288]
+     [ 10.20004065  -0.84380128   0.44754302]
+     [-16.93427229   1.72241573   0.9006236 ]
+     [-12.4100987    0.75431367  -0.36518129]
+     [-16.40464248   1.98431953   0.34907508]
+     [ -6.69439671   1.30624703  -2.77438892]
+     [ 10.84363895   4.99826372  -1.36502623]
+     [-17.2656016    7.29822621   0.63226953]
+     [  5.32413372  -0.54822516  -0.79075935]
+     [ -5.63240657   1.50278876  -0.27590797]
+     [ -7.63440366   7.72788006  -2.58344477]
+     [  4.3348786   -2.14969035   0.61262033]
+     [ -3.95417052   4.22254889  -0.14601319]
+     [ -6.59947069  -1.00867621   2.29551761]
+     [ -0.78942283  -4.15454151   5.87117533]
+     [ 13.62292856   0.40038586  -1.36043631]
+     [  0.03536684  -5.85950737  -1.86196569]
+     [-11.1841298    5.20313078   2.37753549]
+     [  9.62095425  -1.17179699  -4.97535412]
+     [  3.85296648   3.55808      3.65166717]
+     [  6.57934417   4.87503426   0.30243418]
+     [-16.17025935   1.49358788   1.0663259 ]
+     [ -4.33639793   1.26186205  -2.99149191]
+     [ -1.52947063  -0.39342225  -2.96475006]
+     [  9.80619496   6.65483286   0.07714817]
+     [ -2.45893463  -4.89091813  -0.6918453 ]
+     [  9.56282904  -1.8002211    2.06720323]
+     [  1.70293073   7.68378254   5.03581954]
+     [  9.58030378  -6.97453776   0.64558546]
+     [ -3.41279182 -10.07660784  -0.39277019]
+     [ -2.74983634  -6.25461193  -2.65038235]
+     [  4.54987003   1.28692201  -2.40001675]
+     [ -1.81149682   5.16735962   1.4245976 ]
+     [ 13.97823555  -4.39187437   0.57600155]
+     [ 17.39107161   3.26808567   2.50429006]
+     [ -1.25835112  -6.60720376   3.24220508]
+     [  1.06405562  -1.25980089   4.06401644]
+     [ -3.44578711  -5.21002054  -4.20836152]
+     [-21.1181523   -3.72353504   1.6564066 ]
+     [ -6.56723647  -4.31268383   1.22783639]
+     [ 11.77670231   0.67338386   2.94885044]
+     [ -7.89417224  -9.82300322  -1.69743681]
+     [ 15.87543091   0.3804009    3.67627751]
+     [  7.38044431  -1.58972122   0.60154138]]
+    2.306623725743524e-29
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$
 ```
 
-### [1. Intersection](./1-intersection.py)
-Based on `0-likelihood.py`, write a function `def intersection(x, n, P, Pr):` that calculates the intersection of obtaining this data with the various hypothetical probabilities:
-*   `x` is the number of patients that develop severe side effects
-*   `n` is the total number of patients observed
-*   `P` is a 1D `numpy.ndarray` containing the various hypothetical probabilities of developing severe side effects
-*   `Pr` is a 1D `numpy.ndarray` containing the prior beliefs of `P`
-*   If `n` is not a positive integer, raise a `ValueError` with the message `n must be a positive integer`
-*   If `x` is not an integer that is greater than or equal to `0`, raise a `ValueError` with the message `x must be an integer that is greater than or equal to 0`
-*   If `x` is greater than `n`, raise a `ValueError` with the message `x cannot be greater than n`
-*   If `P` is not a 1D `numpy.ndarray`, raise a `TypeError` with the message `P must be a 1D numpy.ndarray`
-*   If `Pr` is not a `numpy.ndarray` with the same shape as `P`, raise a `TypeError` with the message `Pr must be a numpy.ndarray with the same shape as P`
-*   If any value in `P` or `Pr` is not in the range `[0, 1]`, raise a `ValueError` with the message `All values in {P} must be in the range [0, 1]` where `{P}` is the incorrect variable
-*   If `Pr` does not sum to `1`, raise a `ValueError` with the message `Pr must sum to 1` **Hint: use [numpy.isclose](/rltoken/7pptg2vy0_-c0qQ9MnZu1w "numpy.isclose")**
-*   All exceptions should be raised in the above order
-*   Returns: a 1D `numpy.ndarray` containing the intersection of obtaining `x` and `n` with each probability in `P`, respectively
-
-```
-    alexa@ubuntu-xenial:0x07-bayesian_prob$ ./1-main.py 
-    [0.00000000e+00 2.46664506e-05 7.92545518e-03 2.79405187e-04
-     5.39728678e-08 1.03988723e-13 9.93247059e-22 5.54683454e-33
-     8.67650639e-50 9.14515194e-80 0.00000000e+00]
-    alexa@ubuntu-xenial:0x07-bayesian_prob$
-```
-
-### [2. Marginal Probability](./2-marginal.py)
-Based on `1-intersection.py`, write a function `def marginal(x, n, P, Pr):` that calculates the marginal probability of obtaining the data:
-*   `x` is the number of patients that develop severe side effects
-*   `n` is the total number of patients observed
-*   `P` is a 1D `numpy.ndarray` containing the various hypothetical probabilities of patients developing severe side effects
-*   `Pr` is a 1D `numpy.ndarray` containing the prior beliefs about `P`
-*   If `n` is not a positive integer, raise a `ValueError` with the message `n must be a positive integer`
-*   If `x` is not an integer that is greater than or equal to `0`, raise a `ValueError` with the message `x must be an integer that is greater than or equal to 0`
-*   If `x` is greater than `n`, raise a `ValueError` with the message `x cannot be greater than n`
-*   If `P` is not a 1D `numpy.ndarray`, raise a `TypeError` with the message `P must be a 1D numpy.ndarray`
-*   If `Pr` is not a `numpy.ndarray` with the same shape as `P`, raise a `TypeError` with the message `Pr must be a numpy.ndarray with the same shape as P`
-*   If any value in `P` or `Pr` is not in the range `[0, 1]`, raise a `ValueError` with the message `All values in {P} must be in the range [0, 1]` where `{P}` is the incorrect variable
-*   If `Pr` does not sum to `1`, raise a `ValueError` with the message `Pr must sum to 1`
-*   All exceptions should be raised in the above order
-*   Returns: the marginal probability of obtaining `x` and `n`
-
-
-```
-    alexa@ubuntu-xenial:0x07-bayesian_prob$ ./2-main.py 
-    0.008229580791426582
-    alexa@ubuntu-xenial:0x07-bayesian_prob$
-```
-
-### [3. Posterior](./3-posterior.py)
-Based on `2-marginal.py`, write a function `def posterior(x, n, P, Pr):` that calculates the posterior probability for the various hypothetical probabilities of developing severe side effects given the data:
-*   `x` is the number of patients that develop severe side effects
-*   `n` is the total number of patients observed
-*   `P` is a 1D `numpy.ndarray` containing the various hypothetical probabilities of developing severe side effects
-*   `Pr` is a 1D `numpy.ndarray` containing the prior beliefs of `P`
-*   If `n` is not a positive integer, raise a `ValueError` with the message `n must be a positive integer`
-*   If `x` is not an integer that is greater than or equal to `0`, raise a `ValueError` with the message `x must be an integer that is greater than or equal to 0`
-*   If `x` is greater than `n`, raise a `ValueError` with the message `x cannot be greater than n`
-*   If `P` is not a 1D `numpy.ndarray`, raise a `TypeError` with the message `P must be a 1D numpy.ndarray`
-*   If `Pr` is not a `numpy.ndarray` with the same shape as `P`, raise a `TypeError` with the message `Pr must be a numpy.ndarray with the same shape as P`
-*   If any value in `P` or `Pr` is not in the range `[0, 1]`, raise a `ValueError` with the message `All values in {P} must be in the range [0, 1]` where `{P}` is the incorrect variable
-*   If `Pr` does not sum to `1`, raise a `ValueError` with the message `Pr must sum to 1`
-*   All exceptions should be raised in the above order
-*   Returns: the posterior probability of each probability in `P` given `x` and `n`, respectively
+### [1. PCA v2](./1-pca.py)
+Write a function `def pca(X, ndim):` that performs PCA on a dataset:
+*   `X` is a `numpy.ndarray` of shape `(n, d)` where:
+    *   `n` is the number of data points
+    *   `d` is the number of dimensions in each point
+*   `ndim` is the new dimensionality of the transformed `X`
+*   Returns: `T`, a `numpy.ndarray` of shape `(n, ndim)` containing the transformed version of `X`
 ```    
-    alexa@ubuntu-xenial:0x07-bayesian_prob$ ./3-main.py 
-    [0.00000000e+00 2.99729127e-03 9.63044824e-01 3.39513268e-02
-     6.55839819e-06 1.26359684e-11 1.20692303e-19 6.74011797e-31
-     1.05430721e-47 1.11125368e-77 0.00000000e+00]
-    alexa@ubuntu-xenial:0x07-bayesian_prob$
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$ ./1-main.py 
+    X: (2500, 784)
+    [[1\. 1\. 1\. ... 1\. 1\. 1.]
+     [1\. 1\. 1\. ... 1\. 1\. 1.]
+     [1\. 1\. 1\. ... 1\. 1\. 1.]
+     ...
+     [1\. 1\. 1\. ... 1\. 1\. 1.]
+     [1\. 1\. 1\. ... 1\. 1\. 1.]
+     [1\. 1\. 1\. ... 1\. 1\. 1.]]
+    T: (2500, 50)
+    [[-0.61344587  1.37452188 -1.41781926 ...  0.42685217 -0.02276617
+      -0.1076424 ]
+     [-5.00379081  1.94540396  1.49147124 ... -0.26249077  0.4134049
+       1.15489853]
+     [-0.31463237 -2.11658407  0.36608266 ...  0.71665401  0.18946283
+      -0.32878802]
+     ...
+     [ 3.52302175  4.1962009  -0.52129062 ...  0.24412645 -0.02189273
+      -0.19223197]
+     [-0.81387035 -2.43970416  0.33244717 ...  0.55367626  0.64632309
+      -0.42547833]
+     [-2.25717018  3.67177791  2.83905021 ...  0.35014766  0.01807652
+      -0.31548087]]
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$
 ```
 
-### [4. Continuous Posterior ](./4-P_affinities.py)
-Based on `3-posterior.py`, write a function `def posterior(x, n, p1, p2):` that calculates the posterior probability that the probability of developing severe side effects falls within a specific range given the data:
-*   `x` is the number of patients that develop severe side effects
-*   `n` is the total number of patients observed
-*   `p1` is the lower bound on the range
-*   `p2` is the upper bound on the range
-*   You can assume the prior beliefs of `p` follow a uniform distribution
-*   If `n` is not a positive integer, raise a `ValueError` with the message `n must be a positive integer`
-*   If `x` is not an integer that is greater than or equal to `0`, raise a `ValueError` with the message `x must be an integer that is greater than or equal to 0`
-*   If `x` is greater than `n`, raise a `ValueError` with the message `x cannot be greater than n`
-*   If `p1` or `p2` are not floats within the range `[0, 1]`, raise a`ValueError` with the message `{p} must be a float in the range [0, 1]` where `{p}` is the corresponding variable
-*   if `p2` <= `p1`, raise a `ValueError` with the message `p2 must be greater than p1`
-*   The only import you are allowed to use is `from scipy import math, special`
-*   Returns: the posterior probability that `p` is within the range `[p1, p2]` given `x` and `n`
+### [2. Initialize t-SNE ](./2-P_init.py)
+Write a function `def P_init(X, perplexity):` that initializes all variables required to calculate the P affinities in t-SNE:
+*   `X` is a `numpy.ndarray` of shape `(n, d)` containing the dataset to be transformed by t-SNE
+    *   `n` is the number of data points
+    *   `d` is the number of dimensions in each point
+*   `perplexity` is the perplexity that all Gaussian distributions should have
+*   Returns: `(D, P, betas, H)`
+    *   `D`: a `numpy.ndarray` of shape `(n, n)` that calculates the pairwise distance between two data points
+    *   `P`: a `numpy.ndarray` of shape `(n, n)` initialized to all `0`‘s that will contain the P affinities
+    *   `betas`: a `numpy.ndarray` of shape `(n, 1)` initialized to all `1`’s that will contain all of the `beta` values
+        *   ![](https://latex.codecogs.com/gif.latex?\beta_{i}&space;=&space;\frac{1}{2{\sigma_{i}}^{2}&space;} "\beta_{i} = \frac{1}{2{\sigma_{i}}^{2} }")
+    *   `H` is the Shannon entropy for `perplexity` perplexity
 ```
-    alexa@ubuntu-xenial:0x07-bayesian_prob$ ./100-main.py 
-    0.6098093274896035
-    alexa@ubuntu-xenial:0x07-bayesian_prob$
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$ ./2-main.py 
+    X: (2500, 50)
+    [[-0.61344587  1.37452188 -1.41781926 ...  0.42685217 -0.02276617
+      -0.1076424 ]
+     [-5.00379081  1.94540396  1.49147124 ... -0.26249077  0.4134049
+       1.15489853]
+     [-0.31463237 -2.11658407  0.36608266 ...  0.71665401  0.18946283
+      -0.32878802]
+     ...
+     [ 3.52302175  4.1962009  -0.52129062 ...  0.24412645 -0.02189273
+      -0.19223197]
+     [-0.81387035 -2.43970416  0.33244717 ...  0.55367626  0.64632309
+      -0.42547833]
+     [-2.25717018  3.67177791  2.83905021 ...  0.35014766  0.01807652
+      -0.31548087]]
+    D: (2500, 2500)
+    [[ 2.84217094e-14  1.07877842e+02  1.60077565e+02 ...  1.29616280e+02
+       1.27614971e+02  1.21674503e+02]
+     [ 1.07877842e+02 -2.84217094e-14  1.70966269e+02 ...  1.42576625e+02
+       1.47691617e+02  1.16644621e+02]
+     [ 1.60077565e+02  1.70966269e+02  2.84217094e-14 ...  1.38659027e+02
+       1.10260229e+02  1.15886305e+02]
+     ...
+     [ 1.29616280e+02  1.42576625e+02  1.38659027e+02 ...  1.42108547e-14
+       1.56117514e+02  1.09988643e+02]
+     [ 1.27614971e+02  1.47691617e+02  1.10260229e+02 ...  1.56117514e+02
+       2.84217094e-14  1.14083963e+02]
+     [ 1.21674503e+02  1.16644621e+02  1.15886305e+02 ...  1.09988643e+02
+       1.14083963e+02  0.00000000e+00]]
+    P: (2500, 2500)
+    [[0\. 0\. 0\. ... 0\. 0\. 0.]
+     [0\. 0\. 0\. ... 0\. 0\. 0.]
+     [0\. 0\. 0\. ... 0\. 0\. 0.]
+     ...
+     [0\. 0\. 0\. ... 0\. 0\. 0.]
+     [0\. 0\. 0\. ... 0\. 0\. 0.]
+     [0\. 0\. 0\. ... 0\. 0\. 0.]]
+    betas: (2500, 1)
+    [[1.]
+     [1.]
+     [1.]
+     ...
+     [1.]
+     [1.]
+     [1.]]
+    H: 4.906890595608519
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$
+```
+
+### [3. Entropy](./3-entropy.py)
+Write a function `def HP(Di, beta):` that calculates the Shannon entropy and P affinities relative to a data point:
+*   `Di` is a `numpy.ndarray` of shape `(n - 1,)` containing the pariwise distances between a data point and all other points except itself
+    *   `n` is the number of data points
+*   `beta` is the beta value for the Gaussian distribution
+*   Returns: `(Hi, Pi)`
+    *   `Hi`: the Shannon entropy of the points
+    *   `Pi`: a `numpy.ndarray` of shape `(n - 1,)` containing the P affinities of the points
+```    
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$ ./3-main.py 
+    0.05743609363617145
+    [0.00000000e+00 3.74413188e-35 8.00385528e-58 ... 1.35664798e-44
+     1.00374765e-43 3.81537517e-41]
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$ 
+```
+
+### [4. P affinities](./4-P_affinities.py)
+Write a function `def P_affinities(X, tol=1e-5, perplexity=30.0):` that calculates the symmetric P affinities of a data set:
+*   `X` is a `numpy.ndarray` of shape `(n, d)` containing the dataset to be transformed by t-SNE
+    *   `n` is the number of data points
+    *   `d` is the number of dimensions in each point
+*   `perplexity` is the perplexity that all Gaussian distributions should have
+*   `tol` is the maximum tolerance allowed (inclusive) for the difference in Shannon entropy from `perplexity` for all Gaussian distributions
+*   You should use `P_init = __import__('2-P_init').P_init` and `HP = __import__('3-entropy').HP`
+*   Returns: `P`, a `numpy.ndarray` of shape `(n, n)` containing the symmetric P affinities
+
+_Hint: For this task, you will need to perform a binary search on each distribution to find the correct value of `beta` that will give a Shannon Entropy within the tolerance (Think about why we analyze the Shannon entropy instead of perplexity). Since beta can be in the range `(0, inf)`, you will have to do a binary search with the `high` and `low` set to `None`. If in your search, you are supposed to increase/decrease `beta` to `high`/`low` but they are still set to `None`, you should double/half the value of `beta` instead._
+```    
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$ ./4-main.py 
+    P: (2500, 2500)
+    [[0.00000000e+00 7.40714907e-10 9.79862968e-13 ... 2.37913671e-11
+      1.22844912e-10 1.75011944e-10]
+     [7.40714907e-10 0.00000000e+00 1.68735728e-13 ... 2.11150140e-12
+      1.05003596e-11 2.42913116e-10]
+     [9.79862968e-13 1.68735728e-13 0.00000000e+00 ... 2.41827214e-11
+      3.33128330e-09 1.25696380e-09]
+     ...
+     [2.37913671e-11 2.11150140e-12 2.41827214e-11 ... 0.00000000e+00
+      3.62850172e-12 4.11671350e-10]
+     [1.22844912e-10 1.05003596e-11 3.33128330e-09 ... 3.62850172e-12
+      0.00000000e+00 6.70800054e-10]
+     [1.75011944e-10 2.42913116e-10 1.25696380e-09 ... 4.11671350e-10
+      6.70800054e-10 0.00000000e+00]]
+    1.0000000000000009
+    alexa@ubuntu-xenial:0x00-dimensionality_reduction$
 ```
 
 ### [5. Q affinities](./5-Q_affinities.py)
