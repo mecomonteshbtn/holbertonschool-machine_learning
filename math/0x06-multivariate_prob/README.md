@@ -119,7 +119,7 @@ Update the class `MultiNormal`:
      [ 9.67254478]]
     0.00022930236202143824
     alexa@ubuntu-xenial:0x06-multivariate_prob$ 
-``` 
+```
 ---
 ## Author
 
