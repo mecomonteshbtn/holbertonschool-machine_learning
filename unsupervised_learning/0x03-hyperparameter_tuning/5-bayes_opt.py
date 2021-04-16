@@ -132,7 +132,6 @@ class BayesianOptimization():
         for i in range(iterations):
             X_opt, EI = self.acquisition()
             if X_opt in X_aux:
-            	X_opt = X_opt[:-1]
                 break
             Y_opt = self.f(X_opt)
             self.gp.update(X_opt, Y_opt)
