@@ -32,11 +32,11 @@ def sparse(input_dims, hidden_layers, latent_dims, lambtha):
     input_encoder = keras.Input(shape=(input_dims, ))
 
     hidden_encoder = keras.layers.Dense(hidden_layers[0],
-                                activation='relu', )(input_encoder)
+                                        activation='relu', )(input_encoder)
 
     for i in range(1, len(hidden_layers)):
         hidden_encoder = keras.layers.Dense(hidden_layers[i],
-                                    activation='relu')(hidden_encoder)
+                                            activation='relu')(hidden_encoder)
     reg = keras.regularizers.l1(lambtha)
     oencoder = keras.layers.Dense(latent_dims,
                                   activation='relu',
