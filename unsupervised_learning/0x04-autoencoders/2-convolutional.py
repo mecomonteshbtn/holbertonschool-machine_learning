@@ -35,7 +35,7 @@ def autoencoder(input_dims, filters, latent_dims):
                                        padding='same',
                                        activation='relu')(input_encoder)
     output_encoder = keras.layers.MaxPool2D(pool_size=(2, 2),
-                                            padding='same')(output)
+                                            padding='same')(hidden_layer)
 
     for i in range(1, len(filters)):
         hidden_layer = keras.layers.Conv2D(filters=filters[i],
